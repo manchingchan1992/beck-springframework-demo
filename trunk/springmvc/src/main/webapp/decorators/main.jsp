@@ -8,17 +8,34 @@
 <jsp:include page="../commons/meta.jsp"></jsp:include>
 <sitemesh-decorator:head></sitemesh-decorator:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<sitemesh-decorator:title></sitemesh-decorator:title>
+<title><sitemesh-decorator:title></sitemesh-decorator:title></title>
+<script type="text/javascript">
+function showHide(id){
+	
+}
+</script>
 </head>
 <body>
-   <div id="top">
-      <common:top></common:top>
-   </div>
-   <div id="menu">
-      <common:menu></common:menu>
-   </div>
-   <div id="main">   
-      <sitemesh-decorator:body></sitemesh-decorator:body>
+   <div id="page">
+      <div class="pageTop">
+         <common:top></common:top>
+      </div>
+      
+      <div id="pageMain">
+			<table border="0" cellspacing="0" cellpadding="0" width="100%" >
+				<tr>
+					<td valign="top" width="168">
+					<div id="leftMenuArea" class="leftMenuBackground">			
+						<common:menu></common:menu>			
+					</div>	
+					</td>
+					<td valign="top" width="10">&nbsp;</td>					
+					<td valign="top">
+					  	<sitemesh-decorator:body></sitemesh-decorator:body>
+					</td>
+				</tr>
+			</table>
+      </div>
    </div>
    <div id="foot">   
       <common:foot></common:foot>

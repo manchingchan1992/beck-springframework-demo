@@ -244,7 +244,7 @@ border:1px solid #ffffff;
   -moz-opacity:0.7;
   position:absolute;
   z-index:10000;
-  background:url(../images/commons/loading1.gif) #ababab center no-repeat;
+  background:url(/springframework/images/common/loading1.gif) #ababab center no-repeat;
 }
 
 .divpre
@@ -309,7 +309,7 @@ dl.bitem {
 }
 
 dl.bitem dt {
-  background:url(../images/commons/menubg.gif);
+  background:url(/springframework/images/common/menubg.gif);
   height:26px;
   line-height:26px;
   text-align:center;
@@ -337,13 +337,13 @@ dl.bitem dd {
 div.items
 {
 	line-height:22px;
-	background:url(../images/common/arr4.gif) no-repeat 10px 9px;
+	background:url(/springframework/images/common/arr4.gif) no-repeat 10px 9px;
 }
 
 span.items
 {
 	padding:10px 0px 10px 22px;
-	background:url(../images/common/arr4.gif) no-repeat 10px 12px;
+	background:url(/springframework/images/common/arr4.gif) no-repeat 10px 12px;
 }
 
 ul {
@@ -357,7 +357,7 @@ li {
 .sitemu li {
 	padding:0px 0px 0px 22px;
 	line-height:24px;
-	background:url(../images/common/arr4.gif) no-repeat 10px 9px;
+	background:url(/springframework/images/common/arr4.gif) no-repeat 10px 9px;
 }
 
 td {
@@ -437,4 +437,9 @@ td {
   z-index:10000;
   width:100%;
   height:100%;
+}
+
+#page top
+.pageTop {
+	FLOAT: left; WIDTH: 100%
 }
