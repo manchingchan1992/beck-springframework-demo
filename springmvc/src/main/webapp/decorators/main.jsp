@@ -9,11 +9,6 @@
 <sitemesh-decorator:head></sitemesh-decorator:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><sitemesh-decorator:title></sitemesh-decorator:title></title>
-<script type="text/javascript">
-function showHide(id){
-	
-}
-</script>
 </head>
 <body>
    <div id="page">
@@ -21,11 +16,11 @@ function showHide(id){
          <common:top></common:top>
       </div>
       
-      <div id="pageMain">
-			<table border="0" cellspacing="0" cellpadding="0" width="100%" >
+      <div id="pageMain" style="height: 100%">
+			<table border="0" cellspacing="0" cellpadding="0" width="100%" height="100%">
 				<tr>
-					<td valign="top" width="168">
-					<div id="leftMenuArea" class="leftMenuBackground">			
+					<td valign="top" class="leftmenu">
+					<div id="leftMenuArea" class="leftmenu">			
 						<common:menu></common:menu>			
 					</div>	
 					</td>

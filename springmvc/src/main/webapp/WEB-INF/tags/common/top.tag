@@ -1,11 +1,11 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ include file="/commons/taglibs.jsp" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-<table width="100%" border="0" cellpadding="0" cellspacing="0"
-	background="skin/images/frame/topbg.gif">
-	<tr>
+<table width="100%"  height="65" cellpadding="0" cellspacing="0"
+	background="${ctx}/images/common/topbg.gif">
+	<tr height="60">
 		<td width='20%' height="60"><img
-			src="${ctx}/images/common/logo.gif" />
+			src="${ctx}/images/common/logo.gif" height="59" />
 		</td>
 		<td width='80%' align="right" valign="bottom">
 			<table width="750" border="0" cellspacing="0" cellpadding="0">
