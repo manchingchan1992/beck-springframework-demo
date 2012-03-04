@@ -1,6 +1,6 @@
 <%@ attribute name="itemName" required="true"%>
 <%@ attribute name="href" required="true"%>
-<ul class='sitemu'>
+<ul class='sitem'>
 	<li>
 		<div class='items'>
 			<div class='fllct'>
