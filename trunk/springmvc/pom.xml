@@ -237,5 +237,13 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2</version>
 		</dependency>
+
+		<!-- Jmesa -->
+		<dependency>
+			<groupId>org.jmesa</groupId>
+			<artifactId>jmesa</artifactId>
+			<version>3.0.4</version>
+		</dependency>
+	
 	</dependencies>
 </project>
