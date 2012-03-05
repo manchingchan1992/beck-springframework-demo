@@ -6,5 +6,8 @@
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
 <link rel="stylesheet" type="text/css" href="${ctx}/style/springmvc.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/style/jmesa.css" />
 <script type="text/javascript" src="${ctx}/script/jquery-1.6.4.js"></script>
 <script type="text/javascript" src="${ctx}/script/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="${ctx}/script/jmesa.js"></script>
+<script type="text/javascript" src="${ctx}/script/jquery.jmesa.js"></script>
