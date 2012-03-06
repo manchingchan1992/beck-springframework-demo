@@ -28,7 +28,7 @@
 					<b>消息管理</b>
 				</dt>
 				<dd style='display: block;' id='item4'>
-					<common:menuitem href="#" itemName="收件箱"></common:menuitem>
+					<common:menuitem href="${ctx}/message/initInbox.do" itemName="收件箱"></common:menuitem>
 					<common:menuitem href="#" itemName="发件箱"></common:menuitem>
 					<common:menuitem href="#" itemName="垃圾箱"></common:menuitem>
 					<common:menuitem href="#" itemName="聊天记录"></common:menuitem>
