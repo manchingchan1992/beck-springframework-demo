@@ -2,6 +2,7 @@ package com.pccw.springframework.repository;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +15,7 @@ public class EmailMessage extends BaseEntity {
 	private String messageTitle;
 	private String messageContent;
 
+	@Id
 	@Column(name="SYS_REF_MSG")
 	public String getSysRefMessage() {
 		return sysRefMessage;

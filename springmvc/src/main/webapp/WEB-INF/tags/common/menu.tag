@@ -1,4 +1,5 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
+<%@ include file="/commons/taglibs.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
 <script type="text/javascript">
 	function showHide(id) {
@@ -28,10 +29,10 @@
 					<b>消息管理</b>
 				</dt>
 				<dd style='display: block;' id='item4'>
+				    <common:menuitem href="${ctx}/message/initEmail.do" itemName="新建邮件"></common:menuitem>
 					<common:menuitem href="${ctx}/message/initInbox.do" itemName="收件箱"></common:menuitem>
 					<common:menuitem href="#" itemName="发件箱"></common:menuitem>
 					<common:menuitem href="#" itemName="垃圾箱"></common:menuitem>
-					<common:menuitem href="#" itemName="聊天记录"></common:menuitem>
 				</dd>
 			</dl>
 			
