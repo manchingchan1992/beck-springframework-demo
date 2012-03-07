@@ -19,10 +19,8 @@ public class HibernateMessageManagementDaoImpl implements MessageManagementDAO{
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 	
-	@Override
 	public List<EmailMessage> getMessagesForInbox() {
-		List<EmailMessage> messages = hibernateTemplate.execute(new HibernateCallback() {
-			@Override
+		Object messages = hibernateTemplate.execute(new HibernateCallback() {
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				return null;
