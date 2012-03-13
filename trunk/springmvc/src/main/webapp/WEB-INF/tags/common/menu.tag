@@ -31,8 +31,8 @@
 				<dd style='display: block;' id='item4'>
 				    <common:menuitem href="${ctx}/message/initEmail.do" itemName="新建邮件"></common:menuitem>
 					<common:menuitem href="${ctx}/message/initInbox.do" itemName="收件箱"></common:menuitem>
-					<common:menuitem href="#" itemName="发件箱"></common:menuitem>
-					<common:menuitem href="#" itemName="垃圾箱"></common:menuitem>
+					<common:menuitem href="${ctx}/message/initOutbox.do" itemName="发件箱"></common:menuitem>
+					<common:menuitem href="${ctx}/message/initRecycle.do" itemName="垃圾箱"></common:menuitem>
 				</dd>
 			</dl>
 			
