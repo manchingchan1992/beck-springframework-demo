@@ -1,16 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/commons/taglibs.jsp"%>
+<%@ taglib tagdir="/WEB-INF/tags/common" prefix="common"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OA-MSG-001</title>
+<script type="text/javascript">
+function sendEmail(){
+	document.getElementById('submitButton').click();
+}
+</script>
 </head>
 <body>
 	<div class="boxTitleBar">
 		<div class="contenttitle">新建邮件</div>
 	</div>
-	<form:form commandName="messageDto" action="${ctx}/message/createEamil.do">
+	<form:form commandName="emailMessageDTO" action="${ctx}/message/sendEmail.do">
+	    <common:errorTable path="emailMessageDTO"/>
 	    <table class="contentTableBody1" cellspacing="0">
 	       <tr class="contentTableRow1">
 	          <td class="contentLableTd">收件人</td>
@@ -38,12 +45,12 @@
 	       </tr>
 	    </table>
 	    <div class="emptyBlock"></div> 
-	    <input class="submit" type="submit" value="Submit" id="submitButton" style="display: none" />
+	    <input class="submit" type="submit" value="Submit" id="submitButton" style="display:none"/>
 		<div id="buttonArea">
 		   <div class="buttonmenubox_R">
-		      <a class="buttondefault" onclick="validateAndSubmitForm('1')" href="#">发送</a>
-		      <a class="button" onclick="validateAndSubmitForm('1')" href="#">存草稿</a>
-		      <a class="button" onclick="validateAndSubmitForm('1')" href="#">关闭</a>
+		      <a class="buttondefault" onclick="sendEmail();" href="#">发送</a>
+		      <a class="button" onclick="saveAsDraft()" href="#">存草稿</a>
+		      <a class="button" href="${ctx}/message/initInbox.do">关闭</a>
 		   </div>
 		</div>
 	</form:form>
