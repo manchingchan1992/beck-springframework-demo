@@ -8,10 +8,10 @@
 <html>
 <head>
 <jsp:include page="../commons/meta.jsp"></jsp:include>
-<sitemesh-decorator:head></sitemesh-decorator:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><sitemesh-decorator:title></sitemesh-decorator:title>
 </title>
+<sitemesh-decorator:head></sitemesh-decorator:head>
 </head>
 <body>
 	<div id="pageAll">
