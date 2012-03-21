@@ -2,15 +2,19 @@ package com.pccw.springframework.repository;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
+@MappedSuperclass
 public class BaseEntity {
 	private String createBy;
 	private Date createDateTime;
 	private String lastUpdateBy;
 	private Date lastUpdateDateTime;
-	private String lastUpdateTransaction;
+	private String lastTransactionIndicator;
 
+	@Basic
 	@Column(name="CR_BY")
 	public String getCreateBy() {
 		return createBy;
@@ -20,6 +24,7 @@ public class BaseEntity {
 		this.createBy = createBy;
 	}
 
+	@Basic
 	@Column(name="CR_DTTM")
 	public Date getCreateDateTime() {
 		return createDateTime;
@@ -29,6 +34,7 @@ public class BaseEntity {
 		this.createDateTime = createDateTime;
 	}
 
+	@Basic
 	@Column(name="LST_UPD_BY")
 	public String getLastUpdateBy() {
 		return lastUpdateBy;
@@ -37,7 +43,8 @@ public class BaseEntity {
 	public void setLastUpdateBy(String lastUpdateBy) {
 		this.lastUpdateBy = lastUpdateBy;
 	}
-	
+
+	@Basic	
 	@Column(name="LST_UPD_DTTM")
 	public Date getLastUpdateDateTime() {
 		return lastUpdateDateTime;
@@ -47,12 +54,13 @@ public class BaseEntity {
 		this.lastUpdateDateTime = lastUpdateDateTime;
 	}
 
+	@Basic
 	@Column(name="LST_TX_ACTN")
-	public String getLastUpdateTransaction() {
-		return lastUpdateTransaction;
+	public String getLastTransactionIndicator() {
+		return lastTransactionIndicator;
 	}
 
-	public void setLastUpdateTransaction(String lastUpdateTransaction) {
-		this.lastUpdateTransaction = lastUpdateTransaction;
+	public void setLastTransactionIndicator(String lastTransactionIndicator) {
+		this.lastTransactionIndicator = lastTransactionIndicator;
 	}
 }
