@@ -2,5 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="imagePath" value="${ctx}/images"></c:set>
+<c:set var="scriptPath" value="${ctx}/script"></c:set>
