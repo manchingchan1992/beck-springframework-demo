@@ -1,8 +1,9 @@
 package com.pccw.springframework.convertor;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.BeanUtils;
 
 import com.pccw.springframework.dto.EmailMessageDTO;
+import com.pccw.springframework.dto.EmailMessagePagedCriteria;
 import com.pccw.springframework.repository.EmailMessage;
 
 public class EmailMessageManagementConvertor {
@@ -15,7 +16,7 @@ public class EmailMessageManagementConvertor {
 				return dto;
 			}
 			
-			BeanUtils.copyProperties(dto, msg);
+			BeanUtils.copyProperties(msg,dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -31,11 +32,24 @@ public class EmailMessageManagementConvertor {
 				return msg;
 			}
 			
-			BeanUtils.copyProperties(msg, dto);
+			BeanUtils.copyProperties(dto, msg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return msg;
+	}
+	
+	public static EmailMessagePagedCriteria toPagedCriteria(EmailMessageDTO dto){
+		EmailMessagePagedCriteria pagedCriteria = new EmailMessagePagedCriteria();
+		
+		if(dto == null){
+			return pagedCriteria;
+		}
+		
+		BeanUtils.copyProperties(dto, pagedCriteria);
+		pagedCriteria.setMessageFrom("Beck.BQ.Lu@pccw.com");
+		
+		return pagedCriteria;
 	}
 }
