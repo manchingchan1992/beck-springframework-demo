@@ -1523,4 +1523,21 @@ dl.bitem dd {
 	padding-top: 8px
 }
 
+#mvcErrorContainer{
+	font-family:"Arial","Verdana","Helvetica","sans-serif";
+	font-weight:normal;
+	color:#CC0000;
+	border:1px solid #CC0000;
+	width:99%;
+	padding:2px;
+	background-color:#FFFFEE;
+}
+
+#mvcErrorContainer LI{
+	margin-left:25px;
+	LIST-STYLE-TYPE:disc;
+	LINE-HEIGHT:1.0em;
+}
+
+
 
