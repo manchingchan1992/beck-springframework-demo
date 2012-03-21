@@ -1,9 +1,12 @@
 package com.pccw.springframework.dao.impl;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -11,6 +14,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import com.pccw.springframework.dao.MessageManagementDAO;
+import com.pccw.springframework.dto.EmailMessagePagedCriteria;
 import com.pccw.springframework.repository.EmailMessage;
 
 @Component(value="messageManagementDao")
@@ -27,6 +31,105 @@ public class HibernateMessageManagementDaoImpl implements MessageManagementDAO{
 			}
 		});
 		return null;
+	}
+
+	public void sendEmail(final EmailMessage emailMessage) {
+		hibernateTemplate.execute(new HibernateCallback() {
+			public Object doInHibernate(Session session) throws HibernateException,
+					SQLException {
+				session.save(emailMessage);
+				return null;
+			}
+		});
+	}
+	
+	@SuppressWarnings("unused")
+	public List<Object[]> getMessagesForOutbox(final EmailMessagePagedCriteria pagedCriteria){
+		@SuppressWarnings("unchecked")
+		List<Object[]> results = (List<Object[]>)hibernateTemplate.execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer();
+				hql.append("SELECT msg.messageTo,msg.messageTitle,msg.createDateTime ");
+				hql.append("FROM EmailMessage msg ");
+				hql.append( getHQLFilter(pagedCriteria));
+				hql.append( getHQLSort());
+				
+				Query query = session.createQuery(hql.toString());
+				
+				setParameter(query,pagedCriteria);
+				
+				if(pagedCriteria.getPagedCriteria().getPageFilter().getRowEnd() > 0){
+					query.setFirstResult(pagedCriteria.getPagedCriteria().getPageFilter().getRowStart());
+					query.setMaxResults(pagedCriteria.getPagedCriteria().getPageFilter().getRowEnd()
+							          - pagedCriteria.getPagedCriteria().getPageFilter().getRowStart());
+				}
+				return query.list();
+			}
+		});
+		return results;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Integer getMessagesCountForOutBox(final EmailMessagePagedCriteria pagedCriteria){
+		@SuppressWarnings("unchecked")
+		Integer result = (Integer)hibernateTemplate.execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				StringBuffer hql = new StringBuffer();
+				hql.append("SELECT count(*) ");
+				hql.append("FROM EmailMessage msg ");
+				hql.append( getHQLFilter(pagedCriteria));
+				
+				Query query = session.createQuery(hql.toString());
+				
+				setParameter(query,pagedCriteria);
+				
+				return ((Long)query.uniqueResult()).intValue();
+			}
+		});
+		return result;
+	}
+	
+	private StringBuffer getHQLFilter(EmailMessagePagedCriteria pagedCriteria){
+		StringBuffer hql = new StringBuffer();
+		hql.append("WHERE 1=1 ");
+		if(true){
+			hql.append("AND msg.lastTransactionIndicator != 'D' ");
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getMessageFrom())){
+			hql.append("AND upper(msg.messageFrom) = :messageFrom ");
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getMessageCc())){
+			hql.append("AND upper(msg.messageCc) = :messageCc ");
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getMessageTo())){
+			hql.append("AND upper(msg.messageTo) = :messageTo ");
+		}
+		return hql;
+	}
+	
+	private StringBuffer getHQLSort(){
+		StringBuffer sort = new StringBuffer();
+		sort.append("ORDER BY msg.lastUpdateDateTime DESC ");
+		return sort;
+	}
+	
+	private void setParameter(Query query , EmailMessagePagedCriteria pagedCriteria){
+		if(!StringUtils.isEmpty(pagedCriteria.getMessageFrom())){
+			query.setString("messageFrom", pagedCriteria.getMessageFrom().trim().toUpperCase());
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getMessageCc())){
+			query.setString("messageCc", pagedCriteria.getMessageCc().trim().toUpperCase());
+		}
+		
+		if(!StringUtils.isEmpty(pagedCriteria.getMessageTo())){
+			query.setString("messageTo", pagedCriteria.getMessageTo().trim().toUpperCase());
+		}
 	}
 
 }
