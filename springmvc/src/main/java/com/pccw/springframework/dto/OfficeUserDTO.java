@@ -1,8 +1,14 @@
 package com.pccw.springframework.dto;
 
 import java.io.Serializable;
+import java.util.Collection;
 
-public class OfficeUserDTO extends BaseDTO implements Serializable {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.pccw.springframework.constant.CommonConstant;
+
+public class OfficeUserDTO extends BaseDTO implements Serializable,UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,5 +74,33 @@ public class OfficeUserDTO extends BaseDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getUsername() {
+		return this.loginId;
+	}
+
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	public boolean isEnabled() {
+		if(CommonConstant.USER_ACCOUNT_ACTIVE.equals(this.accountStatus)){
+			return true;
+		}
+		return false;
 	}
 }

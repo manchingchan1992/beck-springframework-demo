@@ -14,4 +14,10 @@ public class IndexController extends BaseController{
 		logger.info(">>>>> Index.do Start ....");
 		return new ModelAndView("index");
 	}
+	
+	@RequestMapping(value="/login.do")
+	public ModelAndView login(HttpServletRequest request){
+		logger.info(">>>> return login page");
+		return new ModelAndView("login");
+	}
 }
