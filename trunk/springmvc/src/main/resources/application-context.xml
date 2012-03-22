@@ -91,4 +91,6 @@
 	
 	<!-- annotation driven transactions: @Transactional-->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<import resource="application-security.xml"/>
 </beans>
