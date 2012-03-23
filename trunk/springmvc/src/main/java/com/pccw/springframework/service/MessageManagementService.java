@@ -7,6 +7,7 @@ import com.pccw.springframework.dto.EmailMessagePagedCriteria;
 
 public interface MessageManagementService {	
 	public void sendEmail(EmailMessageDTO dto);
-	public List<EmailMessageDTO> getMessagesForOutbox(EmailMessagePagedCriteria pagedCriteria);
-	public Integer getMessagesCountForOutBox(EmailMessagePagedCriteria pagedCriteria);
+	public List<EmailMessageDTO> getMessagesForSearch(EmailMessagePagedCriteria pagedCriteria);
+	public Integer getMessagesCountForSearch(EmailMessagePagedCriteria pagedCriteria);
+	public EmailMessageDTO viewMessageDetail(String sysRefMessage);
 }
