@@ -21,17 +21,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pccw.springframework.constant.CommonConstant;
 import com.pccw.springframework.constant.DateFormatConstant;
 import com.pccw.springframework.convertor.EmailMessageManagementConvertor;
 import com.pccw.springframework.dto.EmailMessageDTO;
 import com.pccw.springframework.dto.EmailMessagePagedCriteria;
 import com.pccw.springframework.service.MessageManagementService;
 import com.pccw.springframework.utility.DateUtils;
+import com.pccw.springframework.utility.SecurityUtils;
 import com.pccw.springframework.validator.EmailMessageValidator;
 
 @Controller
+@SessionAttributes(value="emailMessageDTO")
 public class MessageManagementController extends BaseController{
 	
 	@Autowired
@@ -62,7 +66,7 @@ public class MessageManagementController extends BaseController{
 			return mv;
 		}
 		
-		emailMessageDTO.setMessageFrom("Beck.BQ.Lu@pccw.com");
+		emailMessageDTO.setMessageFrom(SecurityUtils.getUserEmail());
 		messageManagementService.sendEmail(emailMessageDTO);
 		return mv;
 	}
@@ -78,50 +82,68 @@ public class MessageManagementController extends BaseController{
 	@RequestMapping(value="/message/outboxSearch.do")
 	public ModelAndView outboxSearch(HttpServletRequest request,@ModelAttribute(value="emailMessageDTO")EmailMessageDTO emailMessageDTO){
 		ModelAndView mv = new ModelAndView("message/outbox");
-		handleSearch(request,mv,emailMessageDTO);
+		handleSearch(request,mv,emailMessageDTO,CommonConstant.OUTBOX);
 		return mv;
 	}
 
 	private void handleSearch(HttpServletRequest request,ModelAndView mv ,
-			EmailMessageDTO emailMessageDTO) {
-		String tableId = "_outbox";
+			final EmailMessageDTO emailMessageDTO , final String boxType) {
+		String tableId = "messageBox";
+		EmailMessagePagedCriteria pagedCriteria = null;
+		if(CommonConstant.INBOX.equals(boxType)){
+			tableId = "_inbox";
+			pagedCriteria = EmailMessageManagementConvertor.toInBoxPagedCriteria(emailMessageDTO);
+		}else if(CommonConstant.OUTBOX.equals(boxType)){
+			tableId = "_outbox";
+			pagedCriteria = EmailMessageManagementConvertor.toOutBoxPagedCriteria(emailMessageDTO);
+		}
+		
 		TableModel model = new TableModel(tableId, request);
 		model.autoFilterAndSort(false);
 		
-		final EmailMessagePagedCriteria pagedCriteria = EmailMessageManagementConvertor.toPagedCriteria(emailMessageDTO);
 		model.setItems(new PageItems() {
 			
+			private EmailMessagePagedCriteria toPagedCriteria(){
+				if(CommonConstant.INBOX.equals(boxType)){
+					return EmailMessageManagementConvertor.toInBoxPagedCriteria(emailMessageDTO);
+				}else if(CommonConstant.OUTBOX.equals(boxType)){
+					return EmailMessageManagementConvertor.toOutBoxPagedCriteria(emailMessageDTO);
+				}
+				return new EmailMessagePagedCriteria();
+			}
+			
 			public int getTotalRows(Limit limit) {
-				Integer totalRows = messageManagementService.getMessagesCountForOutBox(pagedCriteria);
+				Integer totalRows = messageManagementService.getMessagesCountForSearch(toPagedCriteria());
 				return totalRows==null ? 0 : totalRows.intValue();
 			}
 			
 			public Collection<?> getItems(Limit limit) {
+				EmailMessagePagedCriteria pagedCriteria = toPagedCriteria();
 				int rowStart = limit.getRowSelect().getRowStart();
 				int rowEnd = limit.getRowSelect().getRowEnd();
+				
 				pagedCriteria.getPagedCriteria().getPageFilter().setRowStart(rowStart);
 				pagedCriteria.getPagedCriteria().getPageFilter().setRowEnd(rowEnd);
 				
-				List<EmailMessageDTO> messages = messageManagementService.getMessagesForOutbox(pagedCriteria);
+				List<EmailMessageDTO> messages = messageManagementService.getMessagesForSearch(pagedCriteria);
 				return messages;
 			}
 		});
 		
-		model.setTable(getTable(true));
+		model.setTable(getTable(request ,true , boxType));
 		
 		mv.addObject("html",model.render());
 	}
 
-	private Table getTable(boolean needCheckbox) {
+	private Table getTable(final HttpServletRequest request,boolean needCheckbox ,final String boxType) {
 		HtmlTable table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
 		row.setFilterable(false);
 		row.onclick(new RowEvent() {
 			
-			public String execute(Object item, int rowCount) {
-				
-				return "alert(1)";
+			public String execute(Object item, int rowCount) {	
+				return "window.location='" + request.getContextPath() + "/message/viewEmailMessageDetail.do?sysRefMsg=" + ((EmailMessageDTO)item).getSysRefMessage() + "&type=" + boxType+ "'";
 			}
 		});
 		table.setRow(row);
@@ -148,10 +170,17 @@ public class MessageManagementController extends BaseController{
 			row.addColumn(checkbox);
 		}
 		
-		HtmlColumn messageTo = new HtmlColumn("messageTo");
-		messageTo.setTitle("收件人");
-		messageTo.setStyle("width:30% nowrap");
-		row.addColumn(messageTo);
+		if(CommonConstant.INBOX.equals(boxType)){
+			HtmlColumn messageFrom = new HtmlColumn("messageFrom");
+			messageFrom.setTitle("发件人");
+			messageFrom.setStyle("width:30% nowrap");
+			row.addColumn(messageFrom);
+		}else if(CommonConstant.OUTBOX.equals(boxType)){			
+			HtmlColumn messageTo = new HtmlColumn("messageTo");
+			messageTo.setTitle("收件人");
+			messageTo.setStyle("width:30% nowrap");
+			row.addColumn(messageTo);
+		}
 		
 		HtmlColumn title = new HtmlColumn("messageTitle");
 		title.setTitle("主题");
@@ -172,6 +201,39 @@ public class MessageManagementController extends BaseController{
 		row.addColumn(crDttm);
 		
 		return table;
+	}
+	
+	@RequestMapping(value="/message/initInbox.do")
+	public ModelAndView initInbox(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("message/inbox");
+		EmailMessageDTO emailMessageDTO = new EmailMessageDTO();
+		mv.addObject("emailMessageDTO", emailMessageDTO);
+		return mv;
+	}
+	
+	@RequestMapping(value="/message/inboxSearch.do")
+	public ModelAndView inboxSearch(HttpServletRequest request,@ModelAttribute(value="emailMessageDTO")EmailMessageDTO emailMessageDTO){
+		ModelAndView mv = new ModelAndView("message/inbox");
+		handleSearch(request,mv,emailMessageDTO,CommonConstant.INBOX);
+		return mv;
+	}
+	
+	@RequestMapping(value="/message/viewEmailMessageDetail.do")
+	public ModelAndView viewEmailMessageDetail(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("message/viewMessageDetail");
+		String sysRefMessage = request.getParameter("sysRefMsg");
+		String type = request.getParameter("type");
+		mv.addObject("emailMessageDTO",this.messageManagementService.viewMessageDetail(sysRefMessage));
+		if(CommonConstant.INBOX.equals(type)){
+			mv.addObject("back",request.getContextPath() + "/message/inboxSearch.do");
+		}else if (CommonConstant.OUTBOX.equals(type)){
+			mv.addObject("back",request.getContextPath() + "/message/outboxSearch.do");
+		}else if (CommonConstant.RECYCLE.equals(type)){
+			mv.addObject("back",request.getContextPath() + "/message/recycleboxSearch.do");
+		}else {
+			mv.addObject("back",request.getContextPath() + "/message/inboxSearch.do");
+		}
+		return mv;
 	}
 	
 }

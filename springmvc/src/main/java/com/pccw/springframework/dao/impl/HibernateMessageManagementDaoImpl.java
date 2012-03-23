@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.pccw.springframework.dao.MessageManagementDAO;
 import com.pccw.springframework.dto.EmailMessagePagedCriteria;
@@ -44,13 +45,13 @@ public class HibernateMessageManagementDaoImpl implements MessageManagementDAO{
 	}
 	
 	@SuppressWarnings("unused")
-	public List<Object[]> getMessagesForOutbox(final EmailMessagePagedCriteria pagedCriteria){
+	public List<EmailMessage> getMessagesForSearch(final EmailMessagePagedCriteria pagedCriteria){
 		@SuppressWarnings("unchecked")
-		List<Object[]> results = (List<Object[]>)hibernateTemplate.execute(new HibernateCallback() {
+		List<EmailMessage> results = (List<EmailMessage>)hibernateTemplate.execute(new HibernateCallback() {
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer();
-				hql.append("SELECT msg.messageTo,msg.messageTitle,msg.createDateTime ");
+//				hql.append("SELECT msg.messageTo,msg.messageTitle,msg.createDateTime ");
 				hql.append("FROM EmailMessage msg ");
 				hql.append( getHQLFilter(pagedCriteria));
 				hql.append( getHQLSort());
@@ -71,7 +72,7 @@ public class HibernateMessageManagementDaoImpl implements MessageManagementDAO{
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public Integer getMessagesCountForOutBox(final EmailMessagePagedCriteria pagedCriteria){
+	public Integer getMessagesCountForSearch(final EmailMessagePagedCriteria pagedCriteria){
 		@SuppressWarnings("unchecked")
 		Integer result = (Integer)hibernateTemplate.execute(new HibernateCallback() {
 			public Object doInHibernate(Session session)
@@ -130,6 +131,21 @@ public class HibernateMessageManagementDaoImpl implements MessageManagementDAO{
 		if(!StringUtils.isEmpty(pagedCriteria.getMessageTo())){
 			query.setString("messageTo", pagedCriteria.getMessageTo().trim().toUpperCase());
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public EmailMessage getEmailMessageBySysRefMsg(final String sysRefMsg){
+		EmailMessage msg = (EmailMessage)hibernateTemplate.execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				String hql = "FROM EmailMessage msg WHERE msg.sysRefMessage = :sysRefMsg AND msg.lastTransactionIndicator != 'D' ";
+				Query query = session.createQuery(hql);
+				query.setString("sysRefMsg", sysRefMsg);
+				List<EmailMessage> msgs = query.list();
+				return CollectionUtils.isEmpty(msgs) ? null : msgs.get(0);
+			}
+		});
+		return msg;
 	}
 
 }
