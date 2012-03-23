@@ -18,7 +18,9 @@
 	default-autowire="byName">
 	
 	<security:http auto-config="true" access-denied-page="/commons/403.jsp">
-		<security:form-login default-target-url="/index.do"/>
+		<security:form-login login-page="/login.do" default-target-url="/index.do" authentication-failure-url="/login.do?login_error=1"/>
+		<security:intercept-url pattern="/message/**" access="ROLE_USER,ROLE_ADMIN"/>
+		<security:intercept-url pattern="/index.do" access="ROLE_USER,ROLE_ADMIN"/>
 	</security:http>
 	
 	<security:authentication-manager>
