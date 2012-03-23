@@ -1,9 +1,12 @@
 package com.pccw.springframework.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.pccw.springframework.constant.CommonConstant;
@@ -77,8 +80,9 @@ public class OfficeUserDTO extends BaseDTO implements Serializable,UserDetails {
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		return authorities;
 	}
 
 	public String getUsername() {

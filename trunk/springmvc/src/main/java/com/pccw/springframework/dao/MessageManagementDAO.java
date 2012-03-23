@@ -8,6 +8,7 @@ import com.pccw.springframework.repository.EmailMessage;
 public interface MessageManagementDAO {
 	public List<EmailMessage> getMessagesForInbox(); 
 	public void sendEmail(EmailMessage emailMessage);
-	public List<Object[]> getMessagesForOutbox(EmailMessagePagedCriteria pagedCriteria);
-	public Integer getMessagesCountForOutBox(EmailMessagePagedCriteria pagedCriteria);
+	public List<EmailMessage> getMessagesForSearch(EmailMessagePagedCriteria pagedCriteria);
+	public Integer getMessagesCountForSearch(EmailMessagePagedCriteria pagedCriteria);
+	public EmailMessage getEmailMessageBySysRefMsg(String sysRefMsg);
 }
