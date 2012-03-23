@@ -40,33 +40,29 @@ public class MessageManagementServiceImpl implements MessageManagementService{
 		EmailMessage po = EmailMessageManagementConvertor.toPo(dto);
 		po.setSysRefMessage(DateUtils.formatDateTime(DateFormatConstant.DATETIME_WITHOUT_SEOARATOR_FULL, new Date()));
 		BaseEntityUtility.setCommonProperties(po, TransactionIndicator.INSERT);
-//		commonMessageManagementDao.save(po);
 		messageManagementDao.sendEmail(po);
 	}
 	
-	public List<EmailMessageDTO> getMessagesForOutbox(EmailMessagePagedCriteria pagedCriteria){
+	public List<EmailMessageDTO> getMessagesForSearch(EmailMessagePagedCriteria pagedCriteria){
 		List<EmailMessageDTO> messages = new ArrayList<EmailMessageDTO>();
-		List<Object[]> list = messageManagementDao.getMessagesForOutbox(pagedCriteria);
+		List<EmailMessage> list = messageManagementDao.getMessagesForSearch(pagedCriteria);
 		
 		if(CollectionUtils.isEmpty(list)){
 			return messages;
 		}
 		
-		for(Object[] msg : list){
-			String messageTo = (String)msg[0];
-			String messageTitle = (String)msg[1];
-			Date msgCrDttm = (Date)msg[2];
-			EmailMessageDTO dto = new EmailMessageDTO();
-			dto.setMessageTo(StringUtils.isEmpty(messageTo) ? "" : messageTo);
-			dto.setMessageTitle(StringUtils.isEmpty(messageTitle) ? "" : messageTitle);
-			dto.setCreateDateTime(msgCrDttm);
-			messages.add(dto);
+		for(EmailMessage msg : list){
+			messages.add(EmailMessageManagementConvertor.toDto(msg));
 		}
 		
 		return messages;
 	}
 	
-	public Integer getMessagesCountForOutBox(EmailMessagePagedCriteria pagedCriteria){
-		return messageManagementDao.getMessagesCountForOutBox(pagedCriteria);
+	public Integer getMessagesCountForSearch(EmailMessagePagedCriteria pagedCriteria){
+		return messageManagementDao.getMessagesCountForSearch(pagedCriteria);
+	}
+	
+	public EmailMessageDTO viewMessageDetail(String sysRefMessage){
+		return EmailMessageManagementConvertor.toDto(messageManagementDao.getEmailMessageBySysRefMsg(sysRefMessage));
 	}
 }
