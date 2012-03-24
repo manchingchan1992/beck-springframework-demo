@@ -12,4 +12,7 @@ public class CommonConstant {
 	public static String INBOX = "I";
 	public static String OUTBOX = "O";
 	public static String RECYCLE = "R";
+	
+	public static String YES = "Y";
+	public static String NO = "N";
 }

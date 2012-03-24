@@ -11,4 +11,7 @@ public interface MessageManagementDAO {
 	public List<EmailMessage> getMessagesForSearch(EmailMessagePagedCriteria pagedCriteria);
 	public Integer getMessagesCountForSearch(EmailMessagePagedCriteria pagedCriteria);
 	public EmailMessage getEmailMessageBySysRefMsg(String sysRefMsg);
+	public void updateEmailMessage(EmailMessage msg);
+	public void markEmailAsDelete(String sysRefMsg);
+	public void deleteEmailForever(String sysRefMsg);
 }
