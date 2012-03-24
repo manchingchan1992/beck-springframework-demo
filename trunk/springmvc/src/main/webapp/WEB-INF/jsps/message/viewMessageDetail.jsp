@@ -11,8 +11,24 @@
 	<div class="boxTitleBar">
 		<div class="contenttitle">查看邮件</div>
 	</div>
+	<div class="emptyBlock">
 	<form:form commandName="emailMessageDTO" >
 	    <common:errorTable path="emailMessageDTO"/>
+	    <div id="topBar">
+		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
+		      <tr>
+		         <td>
+		            <input type="button" value="<<返回" onclick="location.href='${back}'"/>
+		            <input type="button" value="回复" onclick="#"/>
+		            <input type="button" value="回复全部" onclick="#"/>
+		            <input type="button" value="转发" onclick="#"/>
+		            <input type="button" value="删除" onclick="#"/>
+		            <input type="button" value="彻底删除" onclick="#"/>
+		         </td>
+		      </tr>
+		   </table>
+		</div>
+	    <div class="emptyBlock"></div>
 	    <table class="contentTableBody1" cellspacing="0">
 	       <tr class="contentTableRow1">
 	          <td class="contentLableTd">发件人</td>
@@ -46,10 +62,19 @@
 	       </tr>
 	    </table>
 	    <div class="emptyBlock"></div> 
-		<div id="buttonArea">
-		   <div class="buttonmenubox_R">
-		      <a class="buttondefault" href="${back}">返回</a>
-		   </div>
+	    <div id="bottomBar">
+		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
+		      <tr>
+		         <td>
+		            <input type="button" value="<<返回" onclick="location.href='${back}'"/>
+		            <input type="button" value="回复" onclick="#"/>
+		            <input type="button" value="回复全部" onclick="#"/>
+		            <input type="button" value="转发" onclick="#"/>
+		            <input type="button" value="删除" onclick="#"/>
+		            <input type="button" value="彻底删除" onclick="#"/>
+		         </td>
+		      </tr>
+		   </table>
 		</div>
 	</form:form>
 </body>
