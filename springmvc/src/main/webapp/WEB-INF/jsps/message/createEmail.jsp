@@ -6,18 +6,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OA-MSG-001</title>
-<script type="text/javascript">
-function sendEmail(){
-	document.getElementById('submitButton').click();
-}
-</script>
 </head>
 <body>
 	<div class="boxTitleBar">
 		<div class="contenttitle">新建邮件</div>
 	</div>
+	<div class="emptyBlock">
 	<form:form commandName="emailMessageDTO" action="${ctx}/message/sendEmail.do">
 	    <common:errorTable path="emailMessageDTO"/>
+	    <div id="topBar">
+		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
+		      <tr>
+		         <td>
+		            <input type="submit" value="发送"/>
+		            <input type="button" value="存草稿" onclick="saveAsDraft();"/>
+		            <input type="button" value="关闭" onclick="location.href='${ctx}/message/initInbox.do'"/>
+		         </td>
+		      </tr>
+		   </table>
+		</div>
+		<div class="emptyBlock"></div> 
 	    <table class="contentTableBody1" cellspacing="0">
 	       <tr class="contentTableRow1">
 	          <td class="contentLableTd">收件人</td>
@@ -45,13 +53,16 @@ function sendEmail(){
 	       </tr>
 	    </table>
 	    <div class="emptyBlock"></div> 
-	    <input class="submit" type="submit" value="Submit" id="submitButton" style="display:none"/>
-		<div id="buttonArea">
-		   <div class="buttonmenubox_R">
-		      <a class="buttondefault" onclick="sendEmail();" href="#">发送</a>
-		      <a class="button" onclick="saveAsDraft()" href="#">存草稿</a>
-		      <a class="button" href="${ctx}/message/initInbox.do">关闭</a>
-		   </div>
+	    <div id="bottomBar">
+		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
+		      <tr>
+		         <td>
+		            <input type="submit" value="发送"/>
+		            <input type="button" value="存草稿" onclick="saveAsDraft();"/>
+		            <input type="button" value="关闭" onclick="location.href='${ctx}/message/initInbox.do'"/>
+		         </td>
+		      </tr>
+		   </table>
 		</div>
 	</form:form>
 </body>

@@ -5,11 +5,6 @@
 <html>
 <head>
 <title>OA-MSG-003</title>
-<script type="text/javascript">
-function emailSearch(){
-	document.getElementById("submitButton").click();
-}
-</script>
 </head>
 <body>
 	<div class="boxTitleBar">
@@ -19,24 +14,34 @@ function emailSearch(){
 	<form:form commandName="emailMessageDTO"
 		action="${ctx}/message/inboxSearch.do">
 		<common:errorTable path="emailMessageDTO" />
-		<table class="contentTableBody1" cellspacing="0">
-			<tr class="contentTableRow1">
-				<td class="contentLableTd">发件人</td>
-				<td class="contentInputTd"><form:input path="messageFrom" cssClass="standardInputText" /></td>
-				<td class="contentLableTd">主题</td>
-				<td class="contentInputTd"><form:input path="messageTitle" cssClass="standardInputText" /></td>
-			</tr>
-		</table>
 		<div class="emptyBlock">
-		<input class="submit" type="submit" value="Submit" id="submitButton" style="display:none"/>
-	    <div id="buttonArea">
-		   <div class="buttonmenubox_R">
-		      <a class="buttondefault" onclick="emailSearch();" href="#">查询</a>
-		      <a class="button" onclick="" href="#">重置</a>
-		   </div>
+	    <div id="topBar">
+		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
+		      <tr>
+		         <td>
+		            <input type="button" value="创建新邮件" onclick="location.href='${ctx}/message/initEmail.do'"/>
+		            <input type="button" value="删除"/>
+		            <input type="button" value="彻底删除"/>
+		            <input type="button" value="转发"/>
+		         </td>
+		      </tr>
+		   </table>
 		</div>
 	    <div class="emptyBlock">
 	    <div>${html}</div>
+	    <div class="emptyBlock">
+	    <div id="topBar">
+		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
+		      <tr>
+		         <td>
+		            <input type="button" value="创建新邮件" onclick="location.href='${ctx}/message/initEmail.do'"/>
+		            <input type="button" value="删除"/>
+		            <input type="button" value="彻底删除"/>
+		            <input type="button" value="转发"/>
+		         </td>
+		      </tr>
+		   </table>
+		</div>
 	</form:form>
 </body>
 </html>

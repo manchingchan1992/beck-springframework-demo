@@ -79,6 +79,7 @@
 					<common:menuitem href="#" itemName="密码修改"></common:menuitem>
 					<common:menuitem href="#" itemName="代码定义"></common:menuitem>
 					<common:menuitem href="#" itemName="系统初始化"></common:menuitem>
+					<common:menuitem href="${ctx}/j_spring_security_logout" itemName="退出系统"></common:menuitem>
 				</dd>
 			</dl>
 		</td>

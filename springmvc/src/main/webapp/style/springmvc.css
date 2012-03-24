@@ -1539,5 +1539,13 @@ dl.bitem dd {
 	LINE-HEIGHT:1.0em;
 }
 
+.functionMenuBar {
+	background-color:#EFEFEF;
+	font-weight:bold;
+	font-size:12px;
+	text-align:right;
+	font-family:Tahoma, Trebuchet MS , Arial , Verdana , sans-serif;
+}
+
 
 
