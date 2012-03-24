@@ -43,7 +43,7 @@ public class SimpleHibernateTemplate<T, PK extends Serializable>{
 	 * Mark As Delete
 	 * */
 	public void markAsDelete(T entity){
-		Assert.isNull(entity);
+		Assert.notNull(entity);
 		if(entity instanceof BaseEntity){
 			((BaseEntity)entity).setLastTransactionIndicator(TransactionIndicator.DELETE);
 		}
@@ -51,7 +51,7 @@ public class SimpleHibernateTemplate<T, PK extends Serializable>{
 	}
 	
 	public void update(T entity){
-		Assert.isNull(entity);
+		Assert.notNull(entity);
 		if(entity instanceof BaseEntity){
 			((BaseEntity)entity).setLastTransactionIndicator(TransactionIndicator.UPDATE);
 		}
@@ -59,7 +59,7 @@ public class SimpleHibernateTemplate<T, PK extends Serializable>{
 	}
 	
 	public void saveOrUpdate(T entity){
-		Assert.isNull(entity);
+		Assert.notNull(entity);
 		if(entity instanceof BaseEntity){
 			((BaseEntity)entity).setLastTransactionIndicator(TransactionIndicator.UPDATE);
 		}

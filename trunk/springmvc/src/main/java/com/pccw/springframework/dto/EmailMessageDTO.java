@@ -12,6 +12,7 @@ public class EmailMessageDTO extends BaseDTO implements Serializable {
 	private String messageCc;
 	private String messageTitle;
 	private String messageContent;
+	private String isRead;
 
 	public String getSysRefMessage() {
 		return sysRefMessage;
@@ -59,5 +60,13 @@ public class EmailMessageDTO extends BaseDTO implements Serializable {
 
 	public void setMessageContent(String messageContent) {
 		this.messageContent = messageContent;
+	}
+
+	public String getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(String isRead) {
+		this.isRead = isRead;
 	}
 }

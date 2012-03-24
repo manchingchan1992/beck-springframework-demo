@@ -148,4 +148,36 @@ public class HibernateMessageManagementDaoImpl implements MessageManagementDAO{
 		return msg;
 	}
 
+	public void updateEmailMessage(EmailMessage msg) {
+		hibernateTemplate.update(msg);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void markEmailAsDelete(final String sysRefMsg){
+		hibernateTemplate.execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				String sql = "UPDATE t_msg msg SET msg.lst_tx_actn = 'D' WHERE msg.sys_ref_msg = :sysRefMsg ";
+				Query query = session.createSQLQuery(sql);
+				query.setString("sysRefMsg",sysRefMsg );
+				query.executeUpdate();
+				return null;
+			}
+		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void deleteEmailForever(final String sysRefMsg){
+		hibernateTemplate.execute(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				String sql = "DELETE t_msg msg WHERE msg.sys_ref_msg = :sysRefMsg";
+				Query query = session.createSQLQuery(sql);
+				query.setString("sysRefMsg", sysRefMsg);
+				query.executeUpdate();
+				return null;
+			}
+		});
+	}
+
 }

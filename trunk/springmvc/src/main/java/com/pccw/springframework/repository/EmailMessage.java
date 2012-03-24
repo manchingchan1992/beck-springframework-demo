@@ -14,6 +14,7 @@ public class EmailMessage extends BaseEntity {
 	private String messageCc;
 	private String messageTitle;
 	private String messageContent;
+	private String isRead;
 
 	@Id
 	@Column(name="SYS_REF_MSG")
@@ -70,4 +71,12 @@ public class EmailMessage extends BaseEntity {
 		this.messageContent = messageContent;
 	}
 
+	@Column(name="IS_READ")
+	public String getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(String isRead) {
+		this.isRead = isRead;
+	}
 }

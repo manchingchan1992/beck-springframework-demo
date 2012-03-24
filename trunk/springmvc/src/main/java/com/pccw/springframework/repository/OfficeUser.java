@@ -1,9 +1,17 @@
 package com.pccw.springframework.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "T_OA_USR")
@@ -15,6 +23,8 @@ public class OfficeUser extends BaseEntity {
 	private String enName;
 	private String cnName;
 	private String email;
+	
+	private List<OfficeRole> roles = new ArrayList<OfficeRole>();
 
 	@Column(name="USR_REC_ID")
 	@Id
@@ -78,5 +88,14 @@ public class OfficeUser extends BaseEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="pk.officeUser", cascade={CascadeType.ALL})
+	public List<OfficeRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<OfficeRole> roles) {
+		this.roles = roles;
 	}
 }
