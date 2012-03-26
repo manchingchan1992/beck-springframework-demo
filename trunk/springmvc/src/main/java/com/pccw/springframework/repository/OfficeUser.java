@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-
 @Entity
 @Table(name = "T_OA_USR")
 public class OfficeUser extends BaseEntity {
@@ -24,7 +22,7 @@ public class OfficeUser extends BaseEntity {
 	private String cnName;
 	private String email;
 	
-	private List<OfficeRole> roles = new ArrayList<OfficeRole>();
+	private List<OfficeUserRoleAssign> roles = new ArrayList<OfficeUserRoleAssign>();
 
 	@Column(name="USR_REC_ID")
 	@Id
@@ -91,11 +89,11 @@ public class OfficeUser extends BaseEntity {
 	}
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="pk.officeUser", cascade={CascadeType.ALL})
-	public List<OfficeRole> getRoles() {
+	public List<OfficeUserRoleAssign> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<OfficeRole> roles) {
+	public void setRoles(List<OfficeUserRoleAssign> roles) {
 		this.roles = roles;
-	}
+	}	
 }
