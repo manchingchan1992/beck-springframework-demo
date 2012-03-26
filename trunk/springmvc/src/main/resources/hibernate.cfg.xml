@@ -11,7 +11,5 @@
 		<mapping class="com.pccw.springframework.repository.OfficeUser"></mapping>
 		<mapping class="com.pccw.springframework.repository.EmailMessage"></mapping>
 		<mapping class="com.pccw.springframework.repository.OfficeRole"></mapping>
-		<mapping class="com.pccw.springframework.repository.OfficeUserRoleAssignPK"></mapping>
-		<mapping class="com.pccw.springframework.repository.OfficeUserRoleAssign"></mapping>
 	</session-factory>
 </hibernate-configuration>
