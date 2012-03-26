@@ -13,22 +13,19 @@ public class EmailMessageManagementConvertor {
 	public static EmailMessageDTO toDto(EmailMessage msg){
 		EmailMessageDTO dto = new EmailMessageDTO();
 		
-		try {
-			if(msg == null){
-				return dto;
-			}
-			
-			BeanUtils.copyProperties(msg,dto);
-			
-			dto.setMessageFrom(StringUtils.isEmpty(msg.getMessageFrom()) ? "" : msg.getMessageFrom());
-			dto.setMessageTo(StringUtils.isEmpty(msg.getMessageTo()) ? "" : msg.getMessageTo());
-			dto.setMessageCc(StringUtils.isEmpty(msg.getMessageCc()) ? "" : msg.getMessageCc());
-			dto.setMessageTitle(StringUtils.isEmpty(msg.getMessageTitle()) ? "" : msg.getMessageTitle());
-			dto.setMessageContent(StringUtils.isEmpty(msg.getMessageContent()) ? "" : msg.getMessageContent());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(msg == null){
+			return dto;
 		}
+		
+		BasePropertiesConvertor.toDto(msg , dto);
+		
+		dto.setSysRefMessage(StringUtils.isEmpty(msg.getSysRefMessage()) ? "" : msg.getSysRefMessage());
+		dto.setMessageFrom(StringUtils.isEmpty(msg.getMessageFrom()) ? "" : msg.getMessageFrom());
+		dto.setMessageTo(StringUtils.isEmpty(msg.getMessageTo()) ? "" : msg.getMessageTo());
+		dto.setMessageCc(StringUtils.isEmpty(msg.getMessageCc()) ? "" : msg.getMessageCc());
+		dto.setMessageTitle(StringUtils.isEmpty(msg.getMessageTitle()) ? "" : msg.getMessageTitle());
+		dto.setMessageContent(StringUtils.isEmpty(msg.getMessageContent()) ? "" : msg.getMessageContent());
+		dto.setIsRead(StringUtils.isEmpty(msg.getIsRead()) ? "" : msg.getIsRead());
 		
 		return dto;
 	}
@@ -36,15 +33,15 @@ public class EmailMessageManagementConvertor {
 	public static EmailMessage toPo(EmailMessageDTO dto){
 		EmailMessage msg = new EmailMessage();
 		
-		try {
-			if(dto == null){
-				return msg;
-			}
-			
-			BeanUtils.copyProperties(dto, msg);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		BasePropertiesConvertor.toPo(msg , dto);
+		
+		msg.setSysRefMessage(StringUtils.isEmpty(dto.getSysRefMessage()) ? "" : dto.getSysRefMessage());
+		msg.setMessageFrom(StringUtils.isEmpty(dto.getMessageFrom()) ? "" : dto.getMessageFrom());
+		msg.setMessageTo(StringUtils.isEmpty(dto.getMessageTo()) ? "" : dto.getMessageTo());
+		msg.setMessageCc(StringUtils.isEmpty(dto.getMessageCc()) ? "" : dto.getMessageCc());
+		msg.setMessageTitle(StringUtils.isEmpty(dto.getMessageTitle()) ? "" : dto.getMessageTitle());
+		msg.setMessageContent(StringUtils.isEmpty(dto.getMessageContent()) ? "" : dto.getMessageContent());
+		msg.setIsRead(StringUtils.isEmpty(dto.getIsRead()) ? "" : dto.getIsRead());
 		
 		return msg;
 	}
