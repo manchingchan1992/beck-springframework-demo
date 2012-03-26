@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
 import com.pccw.springframework.constant.CommonConstant;
 
@@ -22,6 +23,7 @@ public class OfficeUserDTO extends BaseDTO implements Serializable,UserDetails {
 	private String enName;
 	private String cnName;
 	private String email;
+	private List<OfficeRoleDTO> roles = new ArrayList<OfficeRoleDTO>();
 
 	public String getUserRecId() {
 		return userRecId;
@@ -79,9 +81,23 @@ public class OfficeUserDTO extends BaseDTO implements Serializable,UserDetails {
 		this.email = email;
 	}
 
+	public List<OfficeRoleDTO> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<OfficeRoleDTO> roles) {
+		this.roles = roles;
+	}
+
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		
+		if(!CollectionUtils.isEmpty(roles)){
+			for(OfficeRoleDTO role : roles){
+				String roleName = role.getRoleId();
+				authorities.add(new SimpleGrantedAuthority(roleName));
+			}
+		}
 		return authorities;
 	}
 
