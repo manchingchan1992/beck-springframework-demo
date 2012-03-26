@@ -8,6 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,7 +26,7 @@ public class OfficeUser extends BaseEntity {
 	private String cnName;
 	private String email;
 	
-	private List<OfficeUserRoleAssign> roles = new ArrayList<OfficeUserRoleAssign>();
+	private List<OfficeRole> roles = new ArrayList<OfficeRole>();
 
 	@Column(name="USR_REC_ID")
 	@Id
@@ -88,12 +92,17 @@ public class OfficeUser extends BaseEntity {
 		this.email = email;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="pk.officeUser", cascade={CascadeType.ALL})
-	public List<OfficeUserRoleAssign> getRoles() {
+	@ManyToMany(fetch=FetchType.LAZY , cascade={CascadeType.ALL})
+	@JoinTable(
+			name="T_OA_USR_ROLE_ASGN",
+			joinColumns={@JoinColumn(name="USR_REC_ID")},
+			inverseJoinColumns={@JoinColumn(name="SYS_REF_ROLE")}
+	)
+	public List<OfficeRole> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<OfficeUserRoleAssign> roles) {
+	public void setRoles(List<OfficeRole> roles) {
 		this.roles = roles;
-	}	
+	}
 }
