@@ -35,5 +35,22 @@ public class HibernateOfficeUserDAO implements OfficeUserDAO{
 		});
 		return user;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public OfficeUser getOfficeUserByEmail(final String email){
+		OfficeUser user = (OfficeUser)hibernateTemplate.execute(new HibernateCallback(){
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				String hql = "FROM OfficeUser usr WHERE upper(usr.email) = upper(:email) ";
+				Query query = session.createQuery(hql);
+				
+				query.setString("email", email);
+				
+				return query.uniqueResult();
+			}
+		});
+		
+		return user;
+	}
 
 }

@@ -23,35 +23,17 @@ public class HibernateMessageManagementDaoImpl implements MessageManagementDAO{
 	
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
-	
-	public List<EmailMessage> getMessagesForInbox() {
-		Object messages = hibernateTemplate.execute(new HibernateCallback() {
-			public Object doInHibernate(Session session)
-					throws HibernateException, SQLException {
-				return null;
-			}
-		});
-		return null;
-	}
 
-	public void sendEmail(final EmailMessage emailMessage) {
-		hibernateTemplate.execute(new HibernateCallback() {
-			public Object doInHibernate(Session session) throws HibernateException,
-					SQLException {
-				session.save(emailMessage);
-				return null;
-			}
-		});
+	public void sendEmail(final EmailMessage emailMessage) {		
+		hibernateTemplate.save(emailMessage);
 	}
 	
-	@SuppressWarnings("unused")
 	public List<EmailMessage> getMessagesForSearch(final EmailMessagePagedCriteria pagedCriteria){
 		@SuppressWarnings("unchecked")
 		List<EmailMessage> results = (List<EmailMessage>)hibernateTemplate.execute(new HibernateCallback() {
 			public Object doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				StringBuffer hql = new StringBuffer();
-//				hql.append("SELECT msg.messageTo,msg.messageTitle,msg.createDateTime ");
 				hql.append("FROM EmailMessage msg ");
 				hql.append( getHQLFilter(pagedCriteria));
 				hql.append( getHQLSort());
@@ -71,7 +53,6 @@ public class HibernateMessageManagementDaoImpl implements MessageManagementDAO{
 		return results;
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public Integer getMessagesCountForSearch(final EmailMessagePagedCriteria pagedCriteria){
 		@SuppressWarnings("unchecked")
 		Integer result = (Integer)hibernateTemplate.execute(new HibernateCallback() {

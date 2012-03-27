@@ -2,6 +2,7 @@ package com.pccw.springframework.validator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,9 +10,15 @@ import org.springframework.validation.Validator;
 import com.pccw.springframework.constant.CommonConstant;
 import com.pccw.springframework.constant.MessageConstant;
 import com.pccw.springframework.dto.EmailMessageDTO;
+import com.pccw.springframework.dto.OfficeUserDTO;
+import com.pccw.springframework.service.OfficeUserManagementService;
 
 @Component(value="emailMessageValidator")
 public class EmailMessageValidator implements Validator{
+	
+	@Autowired
+	private OfficeUserManagementService officeUsrMgmtService;
+	
 	public boolean supports(Class<?> clazz) {
 		return EmailMessageDTO.class.equals(clazz);
 	}
@@ -35,6 +42,12 @@ public class EmailMessageValidator implements Validator{
 					!CommonConstant.EMAIL_SUFFIX.equals(suffix)){
 				errors.rejectValue("messageTo", MessageConstant.KEY_ERROR_INVALID_EMAIL_TO, null,MessageConstant.DEFAULT_ERR_MSG_INVALID_EMAIL_TO);
 			}
+			
+			OfficeUserDTO userDto = officeUsrMgmtService.getOfficeUserByEmail(email);
+			
+			if(userDto == null){
+				errors.rejectValue("messageTo", MessageConstant.KEY_ERROR_NOT_EXIST_EMAIL_TO, null,MessageConstant.DEFAULT_ERR_MSG_NOT_EXIST_EMAIL_TO);
+			}
 		}	
 	}
 	
@@ -46,6 +59,12 @@ public class EmailMessageValidator implements Validator{
 			if(!EmailValidator.getInstance().isValid(email) || 
 					!CommonConstant.EMAIL_SUFFIX.equals(suffix)){
 				errors.rejectValue("messageCc", MessageConstant.KEY_ERROR_INVALID_EMAIL_CC, null, MessageConstant.DEFAULT_ERR_MSG_IVALID_EMAIL_CC);
+			}
+			
+			OfficeUserDTO userDto = officeUsrMgmtService.getOfficeUserByEmail(email);
+			
+			if(userDto == null){
+				errors.rejectValue("messageCc", MessageConstant.KEY_ERROR_NOT_EXIST_EMAIL_CC,null,MessageConstant.DEFAULT_ERR_MSG_NOT_EXIST_EMAIL_CC);
 			}
 		}
 	}
