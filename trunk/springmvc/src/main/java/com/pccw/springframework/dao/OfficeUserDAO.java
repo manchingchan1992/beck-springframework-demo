@@ -4,4 +4,5 @@ import com.pccw.springframework.repository.OfficeUser;
 
 public interface OfficeUserDAO {
 	public OfficeUser getOfficeUserByLoginId(String loginId);
+	public OfficeUser getOfficeUserByEmail(String email);
 }
