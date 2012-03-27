@@ -31,6 +31,11 @@ public class EmailMessageManagementConvertor {
 	}
 	
 	public static EmailMessage toPo(EmailMessageDTO dto){
+		
+		if(dto == null){
+			return null;
+		}
+		
 		EmailMessage msg = new EmailMessage();
 		
 		BasePropertiesConvertor.toPo(msg , dto);
