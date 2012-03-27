@@ -5,7 +5,7 @@
 <spring:hasBindErrors name="${path}">
    <div id="errorContainer" class="errorContainer" >
       <h4>
-         <img src="${imagePath}/icon/icon_warning.gif" alt="Warning">Error:
+         &nbsp;&nbsp;<img src="${imagePath}/icon/icon_warning.gif" alt="Warning">&nbsp;Error:
       </h4>
       <br clear="all">
       <ul>

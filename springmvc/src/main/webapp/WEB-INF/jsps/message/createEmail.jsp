@@ -29,7 +29,7 @@
 	    <table class="contentTableBody1" cellspacing="0">
 	       <tr class="contentTableRow1">
 	          <td class="contentLableTd">收件人</td>
-	          <td class="contentInputSingleTd">
+	          <td class="contentInputSingleTd" nowrap>
 	             <form:input path="messageTo" cssClass="standardInputText" cssStyle="width:100%"/>
 	          </td>
 	       </tr>
