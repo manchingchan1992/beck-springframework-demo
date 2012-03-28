@@ -11,15 +11,15 @@
 		<div class="contenttitle">用户管理</div>
 	</div>
 	<div class="emptyBlock">
-   <form:form id="enquireForm" commandName="officeUserDto" action="${ctx}/authentication/userMagement/searchOfficeUsers.do" method="post">
+    <form:form id="enquireForm" commandName="officeUserDto" action="${ctx}/authentication/userMagement/searchOfficeUsers.do" method="post">
         <common:errorTable path="officeUserDto"/>
         <div id="topBar">
 		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
 		      <tr>
 		         <td>
-		            <input type="submit" value="创建新用户"/>
-		            <input type="button" value="查询" onclick="saveAsDraft();"/>
-		            <input type="button" value="重置" onclick="location.href='${ctx}/message/initInbox.do'"/>
+		            <input type="button" value="创建新用户" onclick="location.href='${ctx}/authentication/userMagement/preCreateUserAccount.do'"/>
+		            <input type="submit" value="查询"/>
+		            <input type="reset" value="重置"/>
 		         </td>
 		      </tr>
 		   </table>
@@ -48,7 +48,7 @@
 				</td>
 			</tr>
             <tr>
-				<td class="labelColumn" width="20%">账户状态</td>
+				<td class="labelColumn" width="20%">用户状态</td>
 				<td width="30%">
 					<form:select path="accountStatus">
 					   <form:option value="">--- 请选择  ---</form:option>
@@ -58,21 +58,21 @@
 				</td>
 			</tr>
 		</table>
-		<div class="emptyDiv"></div>
-        <div id="topBar">
+		<div class="emptyBlock"></div>
+        <div id="bottomBar">
 		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
 		      <tr>
 		         <td>
-		            <input type="submit" value="创建新用户"/>
-		            <input type="button" value="查询" onclick="saveAsDraft();"/>
-		            <input type="button" value="重置" onclick="location.href='${ctx}/message/initInbox.do'"/>
+		            <input type="button" value="创建新用户"/>
+		            <input type="submit" value="查询" />
+		            <input type="reset" value="重置" />
 		         </td>
 		      </tr>
 		   </table>
 		</div>	
-		<div class="emptyDiv"></div>	
+		<div class="emptyBlock"></div>	
 		<div>
-		    
+		    ${html}
 		</div>
 	</form:form>
 </body>
