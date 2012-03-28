@@ -5,7 +5,6 @@ import org.apache.commons.validator.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import com.pccw.springframework.constant.CommonConstant;
 import com.pccw.springframework.constant.MessageConstant;
@@ -14,7 +13,7 @@ import com.pccw.springframework.dto.OfficeUserDTO;
 import com.pccw.springframework.service.OfficeUserManagementService;
 
 @Component(value="emailMessageValidator")
-public class EmailMessageValidator implements Validator{
+public class EmailMessageValidator extends BaseValidator{
 	
 	@Autowired
 	private OfficeUserManagementService officeUsrMgmtService;
@@ -70,17 +69,10 @@ public class EmailMessageValidator implements Validator{
 	}
 
 	private void validateMessageTitle(EmailMessageDTO dto, Errors errors) {
-		String title = dto.getMessageTitle().trim();
-		if(title.length() > 30){
-			errors.rejectValue("messageTitle", MessageConstant.KEY_ERROR_INVALID_EMAIL_TITLE_LENGTH, null, MessageConstant.DEFAULT_ERR_MSG_INVALID_EMAIL_TITLE_LENGTH);
-		}
+		validateStringLength(dto, errors, "messageTitle", MessageConstant.KEY_ERROR_INVALID_EMAIL_TITLE_LENGTH, MessageConstant.DEFAULT_ERR_MSG_INVALID_EMAIL_TITLE_LENGTH, 30);
 	}
 
 	private void validateMessageContent(EmailMessageDTO dto, Errors errors) {
-		String content = dto.getMessageContent().trim();
-		if(content.length() > 4000){
-			errors.rejectValue("messageContent", MessageConstant.DEFAULT_ERR_MSG_INVALID_EMAIL_CONTENT_LENGTH);
-			errors.rejectValue("messageContent", MessageConstant.KEY_ERROR_INVALID_EMAIL_CONTENT_LENGTH, null, MessageConstant.DEFAULT_ERR_MSG_INVALID_EMAIL_CONTENT_LENGTH);
-		}
+		validateStringLength(dto, errors, "messageContent", MessageConstant.KEY_ERROR_INVALID_EMAIL_CONTENT_LENGTH, MessageConstant.DEFAULT_ERR_MSG_INVALID_EMAIL_CONTENT_LENGTH, 30);
 	}
 }
