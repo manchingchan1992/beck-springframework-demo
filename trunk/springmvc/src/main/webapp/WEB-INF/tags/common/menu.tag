@@ -67,7 +67,7 @@
 				<dd style='display: block;' id='item7'>
 					<common:menuitem href="#" itemName="模块管理"></common:menuitem>
 					<common:menuitem href="#" itemName="角色管理"></common:menuitem>
-					<common:menuitem href="#" itemName="用户管理"></common:menuitem>
+					<common:menuitem href="${ctx}/authentication/usrMgmt/initUsrMgmt.do" itemName="用户管理"></common:menuitem>
 				</dd>
 			</dl>
 			</security:authorize>
