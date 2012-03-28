@@ -4,15 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>OA-AUTH-001</title>
+<title>OA-USR-001</title>
 </head>
 <body>
    	<div class="boxTitleBar">
 		<div class="contenttitle">用户管理</div>
 	</div>
 	<div class="emptyBlock">
-   <form:form id="enquireForm" commandName="internalUserEnquiryCriteria" action="${ctx}/userMagement/searchInternalUsers.do" method="post">
-        <common:errorTable path="emailMessageDTO"/>
+   <form:form id="enquireForm" commandName="officeUserDto" action="${ctx}/authentication/userMagement/searchOfficeUsers.do" method="post">
+        <common:errorTable path="officeUserDto"/>
         <div id="topBar">
 		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
 		      <tr>
@@ -28,29 +28,33 @@
 		<table id="t1" width="100%" class="standardTableForm" border="1" cellspacing="0" cellpadding="0">
         	<tr></tr>
 			<tr >
-				<td class="labelColumn" width="20%">Login ID</td>
+				<td class="labelColumn" width="20%">用户名</td>
 				<td width="30%">
 					<form:input cssClass="normalTextField" path="loginId" />
 				</td>
-				<td class="labelColumn" width="20%">Full Name</td>
+				<td class="labelColumn" width="20%">邮箱</td>
 				<td width="30%">
-					<form:input cssClass="normalTextField" path="fullName" />
+					<form:input cssClass="normalTextField" path="email" />
 				</td>
 			</tr>
 			<tr>
-				<td class="labelColumn" width="20%">Site</td>
+				<td class="labelColumn" width="20%">中文名</td>
 				<td width="30%">
-					<form:input cssClass="normalTextField" path="site" />
+					<form:input cssClass="normalTextField" path="cnName" />
 				</td>
-				<td class="labelColumn" width="20%">Team</td>
+				<td class="labelColumn" width="20%">英文名</td>
 				<td width="30%">
-					<form:input cssClass="normalTextField" path="team" />
+					<form:input cssClass="normalTextField" path="enName" />
 				</td>
 			</tr>
             <tr>
-				<td class="labelColumn" width="20%">Token</td>
+				<td class="labelColumn" width="20%">账户状态</td>
 				<td width="30%">
-					<form:input cssClass="normalTextField" path="token" />
+					<form:select path="accountStatus">
+					   <form:option value="">--- 请选择  ---</form:option>
+					   <form:option value="AC">启用</form:option>
+					   <form:option value="IN">禁止</form:option>
+					</form:select>
 				</td>
 			</tr>
 		</table>
@@ -68,7 +72,7 @@
 		</div>	
 		<div class="emptyDiv"></div>	
 		<div>
-		    <a href="${accountMaintenanceURL}">Test</a>
+		    
 		</div>
 	</form:form>
 </body>
