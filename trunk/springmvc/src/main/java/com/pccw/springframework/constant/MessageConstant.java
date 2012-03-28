@@ -1,6 +1,9 @@
 package com.pccw.springframework.constant;
 
 public class MessageConstant {
+	public static String KEY_SYSTEM_ERROR = "OA-E-0500";
+	public static String DEFAULT_SYSTEM_ERROR_MSG = "系统错误，请稍后再试";
+	
 	public static String KEY_ERROR_EMAIL_TO_REQUIRED = "OA-E-0030";
 	public static String DEFAULT_ERROR_MSG_EMAIL_TO_REQUIRED = "请输入收件人邮箱.";
 	

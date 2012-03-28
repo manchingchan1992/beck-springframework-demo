@@ -15,4 +15,6 @@ public class CommonConstant {
 	
 	public static String YES = "Y";
 	public static String NO = "N";
+	
+	public static String STRING_ENCODE_BY_MD5 = "MD5";
 }
