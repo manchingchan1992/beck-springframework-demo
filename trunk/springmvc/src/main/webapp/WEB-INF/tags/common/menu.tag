@@ -59,6 +59,7 @@
 			</dl>
 			
 			<!-- item7 -->
+			<security:authorize ifAnyGranted="ROLE_ADMIN">
 			<dl class='bitem'>
 				<dt onClick='showHide("item7")'>
 					<b>权限管理</b>
@@ -69,6 +70,7 @@
 					<common:menuitem href="#" itemName="用户管理"></common:menuitem>
 				</dd>
 			</dl>
+			</security:authorize>
 			
 			<!-- item8 -->
 			<dl class='bitem'>
