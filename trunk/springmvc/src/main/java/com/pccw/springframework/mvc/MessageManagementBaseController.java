@@ -41,7 +41,8 @@ public class MessageManagementBaseController extends BaseController{
 			checkbox.setCellEditor(new CellEditor() {	
 				public Object getValue(Object item, String property, int rowCount) {
 					EmailMessageDTO dto = (EmailMessageDTO)item;
-					String checkbox = "<input type=\"checkbox\" value=\"" + dto.getSysRefMessage() +"\" />&nbsp;&nbsp;";
+					String checkbox = "<input name=\"select\" type=\"checkbox\" value=\"" + dto.getSysRefMessage() +"\" />" 
+					                + "<input name=\"currSelect\" type=\"checkbox\" value=\"" + dto.getSysRefMessage() + "\" checked=\"checked\" style=\"display:none\" />&nbsp;&nbsp;";
 					return checkbox;
 				}
 			});
