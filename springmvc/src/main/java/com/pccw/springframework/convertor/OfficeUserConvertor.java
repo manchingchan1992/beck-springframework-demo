@@ -13,7 +13,7 @@ import com.pccw.springframework.repository.OfficeUser;
 
 public class OfficeUserConvertor {
 	
-	public static OfficeUserDTO toDto(OfficeUser usr){
+	public static OfficeUserDTO toDto(OfficeUser usr , boolean needConvertRoles){
 		
 		if(usr == null){
 			return null;
@@ -30,16 +30,18 @@ public class OfficeUserConvertor {
 		dto.setCnName(StringUtils.isEmpty(usr.getCnName()) ? "" : usr.getCnName());
 		dto.setEmail(StringUtils.isEmpty(usr.getEmail()) ? "" : usr.getEmail());
 		
-		List<OfficeRole> roles = usr.getRoles();
-		List<OfficeRoleDTO> roleDtos = new ArrayList<OfficeRoleDTO>();
-		
-		if(!CollectionUtils.isEmpty(roles)){
-			for(OfficeRole role : roles){
-				roleDtos.add(OfficeRoleConvertor.toDto(role));
+		if(needConvertRoles){			
+			List<OfficeRole> roles = usr.getRoles();
+			List<OfficeRoleDTO> roleDtos = new ArrayList<OfficeRoleDTO>();
+			
+			if(roles != null && roles.size() != 0){
+				for(OfficeRole role : roles){
+					roleDtos.add(OfficeRoleConvertor.toDto(role));
+				}
 			}
+			
+			dto.setRoles(roleDtos);
 		}
-		
-		dto.setRoles(roleDtos);
 
 		return dto;
 	}
