@@ -11,9 +11,9 @@
 		<div class="contenttitle">收件箱</div>
 	</div>
 	<div class="emptyBlock">
-	<form:form commandName="emailMessageDTO"
+	<form:form commandName="emailMessageEnquireDto"
 		action="${ctx}/message/inboxSearch.do">
-		<common:errorTable path="emailMessageDTO" />
+		<common:errorTable path="emailMessageEnquireDto" />
 		<div class="emptyBlock">
 	    <div id="topBar">
 		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
@@ -28,6 +28,10 @@
 		   </table>
 		</div>
 	    <div class="emptyBlock">
+	    <div align="center">
+	       <input type="hidden" id="actionFlag" name="actionFlag"> 
+	       <common:jmesaScript actionFlagStr="30"></common:jmesaScript>
+	    </div>
 	    <div>${html}</div>
 	    <div class="emptyBlock">
 	    <div id="topBar">

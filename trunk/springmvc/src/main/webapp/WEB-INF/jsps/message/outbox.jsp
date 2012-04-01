@@ -11,9 +11,9 @@
 		<div class="contenttitle">发件箱</div>
 	</div>
 	<div class="emptyBlock">
-	<form:form commandName="emailMessageDTO"
+	<form:form commandName="emailMessageEnquireDto"
 		action="${ctx}/message/outboxSearch.do">
-		<common:errorTable path="emailMessageDTO" />
+		<common:errorTable path="emailMessageEnquireDto" />
 		<div class="emptyBlock">
 	    <div id="topBar">
 		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
