@@ -1,31 +1,37 @@
 package com.pccw.springframework.mvc;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.jmesa.limit.Limit;
 import org.jmesa.model.PageItems;
 import org.jmesa.model.TableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import com.pccw.springframework.constant.ActionFlag;
 import com.pccw.springframework.constant.CommonConstant;
 import com.pccw.springframework.convertor.EmailMessageManagementConvertor;
 import com.pccw.springframework.dto.EmailMessageDTO;
+import com.pccw.springframework.dto.EmailMessageEnquireDTO;
 import com.pccw.springframework.dto.EmailMessagePagedCriteria;
 import com.pccw.springframework.service.MessageManagementService;
 import com.pccw.springframework.utility.SecurityUtils;
 import com.pccw.springframework.validator.EmailMessageValidator;
 
 @Controller
-@SessionAttributes(value="emailMessageDTO")
+@SessionAttributes(value={"emailMessageDTO" , "emailMessageEnquireDto"})
 public class MessageManagementController extends MessageManagementBaseController{
 	
 	@Autowired
@@ -64,30 +70,47 @@ public class MessageManagementController extends MessageManagementBaseController
 	@RequestMapping(value="/message/initOutbox.do")
 	public ModelAndView initOutbox(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("redirect:/message/outboxSearch.do");
-		EmailMessageDTO emailMessageDTO = new EmailMessageDTO();
-		mv.addObject("emailMessageDTO", emailMessageDTO);
+		EmailMessageEnquireDTO enquireDto = new EmailMessageEnquireDTO();
+		mv.addObject("emailMessageEnquireDto", enquireDto);
 		return mv;
 	}
 	
 	@RequestMapping(value="/message/outboxSearch.do")
-	public ModelAndView outboxSearch(HttpServletRequest request,@ModelAttribute(value="emailMessageDTO")EmailMessageDTO emailMessageDTO){
+	public ModelAndView outboxSearch(HttpServletRequest request,@ModelAttribute(value="emailMessageEnquireDto")EmailMessageEnquireDTO enquireDto){
 		ModelAndView mv = new ModelAndView("message/outbox");
-		handleSearch(request,mv,emailMessageDTO,CommonConstant.OUTBOX);
+		handleSearch(request,mv,enquireDto,CommonConstant.OUTBOX);
 		return mv;
 	}
 	
 	@RequestMapping(value="/message/initInbox.do")
 	public ModelAndView initInbox(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView("redirect:/message/inboxSearch.do");
-		EmailMessageDTO emailMessageDTO = new EmailMessageDTO();
-		mv.addObject("emailMessageDTO", emailMessageDTO);
+		ModelAndView mv = new ModelAndView(new RedirectView("/message/inboxSearch.do" , true));
+		EmailMessageEnquireDTO enquireDto = new EmailMessageEnquireDTO();
+		mv.addObject("emailMessageEnquireDto", enquireDto);
+		request.getSession().setAttribute(ActionFlag.ACTION_FLAG, ActionFlag.SEARCH);
 		return mv;
 	}
 	
 	@RequestMapping(value="/message/inboxSearch.do")
-	public ModelAndView inboxSearch(HttpServletRequest request,@ModelAttribute(value="emailMessageDTO")EmailMessageDTO emailMessageDTO){
+	public ModelAndView inboxSearch(HttpServletRequest request,@ModelAttribute(value="emailMessageEnquireDto")EmailMessageEnquireDTO enquireDto){
 		ModelAndView mv = new ModelAndView("message/inbox");
-		handleSearch(request,mv,emailMessageDTO,CommonConstant.INBOX);
+		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
+		
+		if(!StringUtils.isEmpty(actionFlag)){
+			request.getSession().setAttribute(ActionFlag.ACTION_FLAG, actionFlag);
+		}else {
+			actionFlag = (String)request.getSession().getAttribute(ActionFlag.ACTION_FLAG);
+		}
+		
+		if(ActionFlag.PAGING.equals(actionFlag)){
+			enquireDto.getJmesaDto().handleSelected();
+		}else if(ActionFlag.SELECT_ALL.equals(actionFlag)){
+			
+		}else {
+			enquireDto.getJmesaDto().resetJmesa();
+			iniAllSelectOption(enquireDto);
+		}
+		handleSearch(request,mv,enquireDto,CommonConstant.INBOX);
 		return mv;
 	}
 	
@@ -113,19 +136,20 @@ public class MessageManagementController extends MessageManagementBaseController
 	}
 
 	private void handleSearch(HttpServletRequest request,ModelAndView mv ,
-			final EmailMessageDTO emailMessageDTO , final String boxType) {
+			final EmailMessageEnquireDTO enquireDto , final String boxType) {
 		String tableId = "messageBox";
 		
 		TableModel model = new TableModel(tableId, request);
 		model.autoFilterAndSort(false);
+		model.setStateAttr("restore");
 		
 		model.setItems(new PageItems() {
 			
 			private EmailMessagePagedCriteria toPagedCriteria(){
 				if(CommonConstant.INBOX.equals(boxType)){
-					return EmailMessageManagementConvertor.toInBoxPagedCriteria(emailMessageDTO);
+					return EmailMessageManagementConvertor.toInBoxPagedCriteria(enquireDto);
 				}else if(CommonConstant.OUTBOX.equals(boxType)){
-					return EmailMessageManagementConvertor.toOutBoxPagedCriteria(emailMessageDTO);
+					return EmailMessageManagementConvertor.toOutBoxPagedCriteria(enquireDto);
 				}
 				return new EmailMessagePagedCriteria();
 			}
@@ -144,17 +168,33 @@ public class MessageManagementController extends MessageManagementBaseController
 				pagedCriteria.getPagedCriteria().getPageFilter().setRowEnd(rowEnd);
 				
 				List<EmailMessageDTO> messages = messageManagementService.getMessagesForSearch(pagedCriteria);
+				
 				return messages;
 			}
 		});
 		
 		String contextPath = request.getContextPath();
 		if(CommonConstant.INBOX.equals(boxType)){
-			model.setTable(getTableForInbox(true, contextPath));
+			model.setTable(getTableForInbox(true, enquireDto.getJmesaDto() ,contextPath));
 		}else if(CommonConstant.OUTBOX.equals(boxType)){
-			model.setTable(getTableForOutbox(true, contextPath));
+			model.setTable(getTableForOutbox(true, enquireDto.getJmesaDto() , contextPath));
 		}
 		
 		mv.addObject("html",model.render());
+		mv.addObject("emailMessageEnquireDto",enquireDto);
 	}	
+	
+	private void iniAllSelectOption(EmailMessageEnquireDTO enquireDto){
+		EmailMessagePagedCriteria pagedCriteria = EmailMessageManagementConvertor.toInBoxPagedCriteria(enquireDto);
+		pagedCriteria.getPagedCriteria().getPageFilter().setRowStart(0);
+		pagedCriteria.getPagedCriteria().getPageFilter().setRowEnd(0);
+		List<EmailMessageDTO> messages = messageManagementService.getMessagesForSearch(pagedCriteria);
+		String[] msgRefs = new String[messages.size()];
+		if(!CollectionUtils.isEmpty(messages)){
+			for(int index = 0 ; index < messages.size() ; index++){
+				msgRefs[index] = messages.get(index).getSysRefMessage();
+			}
+		}
+		enquireDto.getJmesaDto().initAllSelectOption(msgRefs);
+	}
 }
