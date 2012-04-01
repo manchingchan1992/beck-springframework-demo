@@ -2,7 +2,6 @@ package com.pccw.springframework.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -63,6 +62,8 @@ public class JmesaCheckBoxDTO extends JmesaCriteria implements Serializable{
 			temp.add(selection);
 		}
 		setAllSelections(temp);
+		
+		this.selectAll = false;
 	}
 	
 	public void resetJmesa(){
@@ -73,8 +74,22 @@ public class JmesaCheckBoxDTO extends JmesaCriteria implements Serializable{
 	public void handleSelected(){
 		removeAllSelected(this.currSelect);
 		addAllSelected(this.select);
+		resetSelectAllFlag();
 		this.select = null ;
 		this.currSelect = null;
+	}
+
+	private void resetSelectAllFlag() {
+		List<Selection> selections = this.allSelections;
+		if(!CollectionUtils.isEmpty(allSelections)){
+			for(Selection selection : selections){
+				if(!selection.isChecked()){
+					this.selectAll = false;
+					break;
+				}
+				this.selectAll = true;
+			}
+		}
 	}
 
 	private void addAllSelected(String[] keys) {
@@ -88,6 +103,7 @@ public class JmesaCheckBoxDTO extends JmesaCriteria implements Serializable{
 				selection.setChecked(true);
 			}
 		}
+		
 	}
 
 	private void removeAllSelected(String[] keys) {
@@ -118,6 +134,35 @@ public class JmesaCheckBoxDTO extends JmesaCriteria implements Serializable{
 	}
 	
 	public boolean isSelected(String key){
-		return CollectionUtils.isEmpty(this.allSelections) ? false : getSelectionByKey(key).isChecked();
+		Selection selection = getSelectionByKey(key);
+		return selection==null?false : selection.isChecked();
+	}
+	
+	public void handleSelectAll(){
+		if(this.selectAll){
+			disSelectAll();
+		}else {
+			selectAll();
+		}
+	}
+
+	private void selectAll() {
+		List<Selection> selections = this.allSelections;
+		if(!CollectionUtils.isEmpty(selections)){
+			for(Selection selection : selections){
+				selection.setChecked(true);
+			}
+		}
+		this.selectAll = true;
+	}
+
+	private void disSelectAll() {
+		List<Selection> selections = this.allSelections;
+		if(!CollectionUtils.isEmpty(selections)){
+			for(Selection selection : selections){
+				selection.setChecked(false);
+			}
+		}
+		this.selectAll = false;
 	}
 }

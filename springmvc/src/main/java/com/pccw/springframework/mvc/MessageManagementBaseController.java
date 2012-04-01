@@ -22,11 +22,6 @@ public class MessageManagementBaseController extends BaseController{
 		
 		HtmlRow row = new HtmlRow();
 		row.setFilterable(false);
-//		row.onclick(new RowEvent() {	
-//			public String execute(Object item, int rowCount) {	
-//				return "window.location='" + contextPath + "/message/viewEmailMessageDetail.do?sysRefMsg=" + ((EmailMessageDTO)item).getSysRefMessage() + "&type=O'";
-//			}
-//		});
 		table.setRow(row);
 		
 		if(needCheckbox){
@@ -35,7 +30,7 @@ public class MessageManagementBaseController extends BaseController{
 			checkbox.setHeaderEditor(new HeaderEditor() {
 				public Object getValue() {
 					HtmlBuilder builder = new HtmlBuilder();
-					String checkbox = "<input type=\"checkbox\" style=\"align:center\"/>";
+					String checkbox = "<input type=\"checkbox\" style=\"align:left\" onclick=\"javascript:selectAllByTableId('messageBox')\"/>";
 					return builder.append(checkbox).toString();
 				}
 			});
@@ -64,7 +59,16 @@ public class MessageManagementBaseController extends BaseController{
 		messageTo.setStyle("width:30% nowrap");
 		messageTo.setCellEditor(new CellEditor() {
 			public Object getValue(Object item, String properties, int rowCount) {
-				return "<span>" + ((EmailMessageDTO)item).getMessageTo() + "</span>";
+				StringBuffer buffer = new StringBuffer();
+				buffer.append("<span><a href=\"");
+				buffer.append(contextPath);
+				buffer.append("/message/viewEmailMessageDetail.do?msg=");
+				buffer.append(((EmailMessageDTO)item).getSysRefMessage());
+				buffer.append("&type=O");
+				buffer.append("\">");
+				buffer.append(((EmailMessageDTO)item).getMessageTo());
+				buffer.append("</a></span>");
+				return buffer.toString();
 			}
 		});
 		row.addColumn(messageTo);
@@ -99,11 +103,6 @@ public class MessageManagementBaseController extends BaseController{
 		
 		HtmlRow row = new HtmlRow();
 		row.setFilterable(false);
-//		row.onclick(new RowEvent() {	
-//			public String execute(Object item, int rowCount) {	
-//				return "window.location='" + contextPath + "/message/viewEmailMessageDetail.do?sysRefMsg=" + ((EmailMessageDTO)item).getSysRefMessage() + "&type=I'";
-//			}
-//		});
 		table.setRow(row);
 		
 		if(needCheckbox){
@@ -113,7 +112,13 @@ public class MessageManagementBaseController extends BaseController{
 				
 				public Object getValue() {
 					HtmlBuilder builder = new HtmlBuilder();
-					String checkbox = "<input type=\"checkbox\" style=\"align:center\"/>";
+					
+					String checkbox = null;
+					if(jmesaDto.isSelectAll()){
+						checkbox = "<input type=\"checkbox\" style=\"align:left\" onclick=\"javascript:selectAllByTableId('messageBox')\" checked=\"checked\"/>";
+					}else {
+						checkbox = "<input type=\"checkbox\" style=\"align:left\" onclick=\"javascript:selectAllByTableId('messageBox')\" />";
+					}
 					return builder.append(checkbox).toString();
 				}
 			});
@@ -123,7 +128,7 @@ public class MessageManagementBaseController extends BaseController{
 					EmailMessageDTO dto = (EmailMessageDTO)item;
 					
 					StringBuffer checkbox = new StringBuffer();
-					if(jmesaDto.isSelected(dto.getSysRefMessage())){	
+					if(jmesaDto.isSelectAll() || jmesaDto.isSelected(dto.getSysRefMessage())){	
 						checkbox.append("<input name=\"jmesaDto.select\" type=\"checkbox\" checked=\"checked\" value=\"");
 					}else {
 						checkbox.append("<input name=\"jmesaDto.select\" type=\"checkbox\" value=\"");
@@ -153,11 +158,21 @@ public class MessageManagementBaseController extends BaseController{
 		messageFrom.setCellEditor(new CellEditor() {
 			public Object getValue(Object item, String properties, int rowCount) {
 				EmailMessageDTO dto = ((EmailMessageDTO)item);
+				StringBuffer buffer = new StringBuffer();
 				if(CommonConstant.YES.equals(dto.getIsRead())){
-					return "<span>" + ((EmailMessageDTO)item).getMessageFrom() + "</span>";
+					buffer.append("<span>");
 				}else {
-					return "<span style=\"font-weight:bold\" >" + ((EmailMessageDTO)item).getMessageFrom() + "</span>";
+					buffer.append("<span style=\"font-weight:bold\" >");
 				}
+				buffer.append("<a href=\"");
+				buffer.append(contextPath);
+				buffer.append("/message/viewEmailMessageDetail.do?msg=");
+				buffer.append(((EmailMessageDTO)item).getSysRefMessage());
+				buffer.append("&type=I");
+				buffer.append("\">");
+				buffer.append(((EmailMessageDTO)item).getMessageTo());
+				buffer.append("</a></span>");
+				return buffer.toString();
 			}
 		});
 		row.addColumn(messageFrom);
