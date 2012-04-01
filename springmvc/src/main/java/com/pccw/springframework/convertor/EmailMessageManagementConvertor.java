@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import com.pccw.springframework.dto.EmailMessageDTO;
+import com.pccw.springframework.dto.EmailMessageEnquireDTO;
 import com.pccw.springframework.dto.EmailMessagePagedCriteria;
 import com.pccw.springframework.repository.EmailMessage;
 import com.pccw.springframework.utility.SecurityUtils;
@@ -51,7 +52,7 @@ public class EmailMessageManagementConvertor {
 		return msg;
 	}
 	
-	public static EmailMessagePagedCriteria toOutBoxPagedCriteria(EmailMessageDTO dto){
+	public static EmailMessagePagedCriteria toOutBoxPagedCriteria(EmailMessageEnquireDTO dto){
 		EmailMessagePagedCriteria pagedCriteria = new EmailMessagePagedCriteria();
 		
 		if(dto == null){
@@ -62,10 +63,15 @@ public class EmailMessageManagementConvertor {
 		
 		pagedCriteria.setMessageFrom(SecurityUtils.getUserEmail());
 		
+		if(dto.getJmesaDto() != null && dto.getJmesaDto().getRowSelect() != null){
+			pagedCriteria.getPagedCriteria().getPageFilter().setRowStart(dto.getJmesaDto().getRowSelect().getRowStart());
+			pagedCriteria.getPagedCriteria().getPageFilter().setRowEnd(dto.getJmesaDto().getRowSelect().getRowEnd());
+		}
+		
 		return pagedCriteria;
 	}
 	
-	public static EmailMessagePagedCriteria toInBoxPagedCriteria(EmailMessageDTO dto){
+	public static EmailMessagePagedCriteria toInBoxPagedCriteria(EmailMessageEnquireDTO dto){
 		EmailMessagePagedCriteria pagedCriteria = new EmailMessagePagedCriteria();
 		
 		if(dto == null){
@@ -75,6 +81,11 @@ public class EmailMessageManagementConvertor {
 		BeanUtils.copyProperties(dto, pagedCriteria);
 		
 		pagedCriteria.setMessageTo(SecurityUtils.getUserEmail());
+		
+		if(dto.getJmesaDto() != null && dto.getJmesaDto().getRowSelect() != null){
+			pagedCriteria.getPagedCriteria().getPageFilter().setRowStart(dto.getJmesaDto().getRowSelect().getRowStart());
+			pagedCriteria.getPagedCriteria().getPageFilter().setRowEnd(dto.getJmesaDto().getRowSelect().getRowEnd());
+		}
 		
 		return pagedCriteria;
 	}

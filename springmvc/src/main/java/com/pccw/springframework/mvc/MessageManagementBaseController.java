@@ -12,20 +12,21 @@ import org.jmesa.view.html.event.RowEvent;
 import com.pccw.springframework.constant.CommonConstant;
 import com.pccw.springframework.constant.DateFormatConstant;
 import com.pccw.springframework.dto.EmailMessageDTO;
+import com.pccw.springframework.dto.JmesaCheckBoxDTO;
 import com.pccw.springframework.utility.DateUtils;
 
 public class MessageManagementBaseController extends BaseController{
 	
-	protected Table getTableForOutbox(boolean needCheckbox,final String contextPath){
+	protected Table getTableForOutbox(boolean needCheckbox,final JmesaCheckBoxDTO jmesaDto ,final String contextPath){
 		HtmlTable table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
 		row.setFilterable(false);
-		row.onclick(new RowEvent() {	
-			public String execute(Object item, int rowCount) {	
-				return "window.location='" + contextPath + "/message/viewEmailMessageDetail.do?sysRefMsg=" + ((EmailMessageDTO)item).getSysRefMessage() + "&type=O'";
-			}
-		});
+//		row.onclick(new RowEvent() {	
+//			public String execute(Object item, int rowCount) {	
+//				return "window.location='" + contextPath + "/message/viewEmailMessageDetail.do?sysRefMsg=" + ((EmailMessageDTO)item).getSysRefMessage() + "&type=O'";
+//			}
+//		});
 		table.setRow(row);
 		
 		if(needCheckbox){
@@ -41,9 +42,18 @@ public class MessageManagementBaseController extends BaseController{
 			checkbox.setCellEditor(new CellEditor() {	
 				public Object getValue(Object item, String property, int rowCount) {
 					EmailMessageDTO dto = (EmailMessageDTO)item;
-					String checkbox = "<input name=\"select\" type=\"checkbox\" value=\"" + dto.getSysRefMessage() +"\" />" 
-					                + "<input name=\"currSelect\" type=\"checkbox\" value=\"" + dto.getSysRefMessage() + "\" checked=\"checked\" style=\"display:none\" />&nbsp;&nbsp;";
-					return checkbox;
+					StringBuffer checkbox = new StringBuffer();
+					if(jmesaDto.isSelected(dto.getSysRefMessage())){	
+						checkbox.append("<input name=\"jmesaDto.select\" type=\"checkbox\" checked=\"checked\" value=\"");
+					}else {
+						checkbox.append("<input name=\"jmesaDto.select\" type=\"checkbox\" value=\"");
+					}
+					checkbox.append(dto.getSysRefMessage());
+					checkbox.append("\" />");
+					checkbox.append("<input name=\"jmesaDto.currSelect\" type=\"checkbox\" value=\"");
+					checkbox.append(dto.getSysRefMessage());
+					checkbox.append("\" checked=\"checked\" style=\"display:none\" />&nbsp;&nbsp;");
+					return checkbox.toString();
 				}
 			});
 			row.addColumn(checkbox);
@@ -84,16 +94,16 @@ public class MessageManagementBaseController extends BaseController{
 		return table;
 	}
 	
-	protected Table getTableForInbox(boolean needCheckbox,final String contextPath){
+	protected Table getTableForInbox(boolean needCheckbox,final JmesaCheckBoxDTO jmesaDto ,final String contextPath){
 		HtmlTable table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
 		row.setFilterable(false);
-		row.onclick(new RowEvent() {	
-			public String execute(Object item, int rowCount) {	
-				return "window.location='" + contextPath + "/message/viewEmailMessageDetail.do?sysRefMsg=" + ((EmailMessageDTO)item).getSysRefMessage() + "&type=I'";
-			}
-		});
+//		row.onclick(new RowEvent() {	
+//			public String execute(Object item, int rowCount) {	
+//				return "window.location='" + contextPath + "/message/viewEmailMessageDetail.do?sysRefMsg=" + ((EmailMessageDTO)item).getSysRefMessage() + "&type=I'";
+//			}
+//		});
 		table.setRow(row);
 		
 		if(needCheckbox){
@@ -111,7 +121,18 @@ public class MessageManagementBaseController extends BaseController{
 				
 				public Object getValue(Object item, String property, int rowCount) {
 					EmailMessageDTO dto = (EmailMessageDTO)item;
-					String checkbox = "<input type=\"checkbox\" value=\"" + dto.getSysRefMessage() +"\" />&nbsp;&nbsp;";
+					
+					StringBuffer checkbox = new StringBuffer();
+					if(jmesaDto.isSelected(dto.getSysRefMessage())){	
+						checkbox.append("<input name=\"jmesaDto.select\" type=\"checkbox\" checked=\"checked\" value=\"");
+					}else {
+						checkbox.append("<input name=\"jmesaDto.select\" type=\"checkbox\" value=\"");
+					}
+					checkbox.append(dto.getSysRefMessage());
+					checkbox.append("\" />");
+					checkbox.append("<input name=\"jmesaDto.currSelect\" type=\"checkbox\" value=\"");
+					checkbox.append(dto.getSysRefMessage());
+					checkbox.append("\" checked=\"checked\" style=\"display:none\" />&nbsp;&nbsp;");
 					
 					String imgPath = "";
 					if(CommonConstant.NO.equals(dto.getIsRead())){
@@ -120,8 +141,7 @@ public class MessageManagementBaseController extends BaseController{
 						imgPath = "<img src=\"" + contextPath + "/images/common/read.gif\" />";
 					}
 					
-					checkbox = checkbox + imgPath;
-					return checkbox;
+					return checkbox.toString() + imgPath;
 				}
 			});
 			row.addColumn(checkbox);
