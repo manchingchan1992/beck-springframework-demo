@@ -5,13 +5,46 @@
 <html>
 <head>
 <title>OA-MSG-002</title>
+<script type="text/javascript">
+function deleteEmailMessage(){
+	var selectCount = 0;
+	var selections = document.getElementsByName("jmesaDto.select");
+	if(selections != 'undefined'){
+		for(var i=0 ; i<selections.length ; i++){
+			if(selections[i].checked){
+				selectCount++;
+			}
+		}
+	}
+	if(selectCount==0){
+		alert('请至少选择一份邮件!');
+		return ;
+	}
+	document.forms[0].action = '${ctx}/message/deleteEmail.do';
+	var actionFlag = document.getElementById('actionFlag');
+	if(actionFlag != 'undefined'){
+		actionFlag.value = '';
+	}
+	$('#outboxForm').ajaxSubmit({
+		async:false,
+		success:function(){
+			var actionFlag = document.getElementById('actionFlag');
+			if(actionFlag != 'undefined'){
+				actionFlag.value = '10';
+			}
+			document.forms[0].action='${ctx}/message/outboxSearch.do';
+			document.forms[0].submit();
+		}
+	});
+}
+</script>
 </head>
 <body>
 	<div class="boxTitleBar">
 		<div class="contenttitle">发件箱</div>
 	</div>
 	<div class="emptyBlock">
-	<form:form commandName="emailMessageEnquireDto"
+	<form:form id="outboxForm" commandName="emailMessageEnquireDto"
 		action="${ctx}/message/outboxSearch.do">
 		<common:errorTable path="emailMessageEnquireDto" />
 		<div class="emptyBlock">
@@ -20,7 +53,7 @@
 		      <tr>
 		         <td>
 		            <input type="button" value="创建新邮件" onclick="location.href='${ctx}/message/initEmail.do'"/>
-		            <input type="button" value="删除"/>
+		            <input type="button" value="删除" onclick="deleteEmailMessage()"/>
 		            <input type="button" value="彻底删除"/>
 		            <input type="button" value="转发"/>
 		         </td>
@@ -28,6 +61,10 @@
 		   </table>
 		</div>
 	    <div class="emptyBlock">
+	    <div align="center">
+	       <input type="hidden" id="actionFlag" name="actionFlag"> 
+	       <common:jmesaScript actionFlagStr="30"></common:jmesaScript>
+	    </div>
 	    <div>${html}</div>
 	    <div class="emptyBlock">
 	    <div id="bottomBar">
@@ -35,7 +72,7 @@
 		      <tr>
 		         <td>
 		            <input type="button" value="创建新邮件" onclick="location.href='${ctx}/message/initEmail.do'"/>
-		            <input type="button" value="删除"/>
+		            <input type="button" value="删除" onclick="deleteEmailMessage()"/>
 		            <input type="button" value="彻底删除"/>
 		            <input type="button" value="转发"/>
 		         </td>
