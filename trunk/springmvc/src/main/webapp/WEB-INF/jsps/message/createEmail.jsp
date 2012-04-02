@@ -20,7 +20,14 @@
 		         <td>
 		            <input type="submit" value="发送"/>
 		            <input type="button" value="存草稿" onclick="saveAsDraft();"/>
-		            <input type="button" value="关闭" onclick="location.href='${ctx}/message/initInbox.do'"/>
+		            <c:choose>
+		               <c:when test="${replyOrForward}">
+		                  <input type="button" value="返回" onclick="location.href='${ctx}/message/viewEmailMessageDetail.do?msg=${emailMessageDTO.sysRefMessage}&type=${boxType}'"/>
+		               </c:when>
+		               <c:otherwise>
+		                  <input type="button" value="关闭" onclick="location.href='${ctx}/message/initInbox.do'"/>
+		               </c:otherwise>
+		            </c:choose>
 		         </td>
 		      </tr>
 		   </table>
@@ -59,7 +66,14 @@
 		         <td>
 		            <input type="submit" value="发送"/>
 		            <input type="button" value="存草稿" onclick="saveAsDraft();"/>
-		            <input type="button" value="关闭" onclick="location.href='${ctx}/message/initInbox.do'"/>
+		            <c:choose>
+		               <c:when test="${replyOrForward}">
+		                  <input type="button" value="返回" onclick="location.href='${ctx}/message/viewEmailMessageDetail.do?msg=${originalSysRefMsg}&type=${boxType}'"/>
+		               </c:when>
+		               <c:otherwise>
+		                  <input type="button" value="关闭" onclick="location.href='${ctx}/message/initInbox.do'"/>
+		               </c:otherwise>
+		            </c:choose>
 		         </td>
 		      </tr>
 		   </table>
