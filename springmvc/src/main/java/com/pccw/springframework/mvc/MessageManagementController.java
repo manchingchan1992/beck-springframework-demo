@@ -1,8 +1,8 @@
 package com.pccw.springframework.mvc;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +12,7 @@ import org.jmesa.limit.Limit;
 import org.jmesa.model.PageItems;
 import org.jmesa.model.TableModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
@@ -148,15 +149,23 @@ public class MessageManagementController extends MessageManagementBaseController
 		return mv;
 	}
 	
-	@RequestMapping(value="/message/deleteEmail.do")
+	@RequestMapping(value="/message/batchdelete.do")
 	public void emailMessageDelete(HttpServletRequest request , HttpServletResponse response ,@ModelAttribute(value="emailMessageEnquireDto")EmailMessageEnquireDTO enquireDto){
 		response.setContentType("text/plain");
+		String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
+		
+		boolean deleteForever = false;
+		if(ActionFlag.EMAIL_MARK_AS_DELETE.equals(actionFlag)){
+			deleteForever = false;
+		}else if(ActionFlag.EMAIL_DELETE_FOREVER.equals(actionFlag)){
+			deleteForever = true;
+		}
 		
 		try{
 			String[] selects = enquireDto.getJmesaDto().getSelect();
 			if(selects != null && selects.length != 0){
 				for(int i=0 ; i<selects.length ; i++){
-					messageManagementService.deleteEmailMessage(selects[i], false);
+					messageManagementService.deleteEmailMessage(selects[i], deleteForever);
 				}
 				response.getWriter().write("{\"success\":\"true\"}");
 			}
@@ -164,6 +173,7 @@ public class MessageManagementController extends MessageManagementBaseController
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+
 	}
 
 	private void handleSearch(HttpServletRequest request,ModelAndView mv ,
@@ -235,5 +245,83 @@ public class MessageManagementController extends MessageManagementBaseController
 			}
 		}
 		enquireDto.getJmesaDto().initAllSelectOption(msgRefs);
+	}
+	
+	@RequestMapping(value="/message/forward.do")
+	public ModelAndView forward(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("message/createEmail");
+		String ref = request.getParameter("ref");
+		EmailMessageDTO newMsgDto = new EmailMessageDTO();
+		
+		if(!StringUtils.isEmpty(ref)){
+			EmailMessageDTO oldMsgDto = messageManagementService.getEmailBySysRefMsg(ref);
+			newMsgDto = handleReplyOrForward(oldMsgDto , ActionFlag.EMAIL_FORWARD);
+			mv.addObject("originalSysRefMsg", oldMsgDto.getSysRefMessage());
+			mv.addObject("replyOrForward",true);
+		}
+		
+		mv.addObject("emailMessageDTO",newMsgDto);
+		return mv;
+	}
+
+	private EmailMessageDTO handleReplyOrForward(EmailMessageDTO oldMsgDto , String type) {
+		final Locale locale = LocaleContextHolder.getLocale();
+		EmailMessageDTO newMsgDto = new EmailMessageDTO();
+		
+		if(ActionFlag.EMAIL_REPLY.equals(type)){
+			newMsgDto.setMessageTo(oldMsgDto.getMessageFrom());
+		}
+		
+		if(ActionFlag.EMAIL_FORWARD.equals(type)){
+			newMsgDto.setMessageTitle(getMessage("message.forward.prefix.title", locale) + oldMsgDto.getMessageTitle());
+		}else {			
+			newMsgDto.setMessageTitle(getMessage("message.reply.prefix.title", locale) + oldMsgDto.getMessageTitle());
+		}
+		
+		StringBuffer content = new StringBuffer();
+		content.append(getMessage("message.forward.content.prefix", locale));
+		content.append(getMessage("message.forward.content.from", locale) + oldMsgDto.getMessageFrom() + "\n");
+		content.append(getMessage("message.forward.content.dttm", locale) + oldMsgDto.getCreateDateTime() + "\n");
+		content.append(getMessage("message.forward.content.to", locale) + oldMsgDto.getMessageTo() + "\n");
+		content.append(getMessage("message.forward.content.title", locale) + oldMsgDto.getMessageTitle() + "\n");
+		content.append(oldMsgDto.getMessageContent());
+		newMsgDto.setMessageContent(content.toString());
+		
+		return newMsgDto;
+	}
+	
+	@RequestMapping(value="/message/reply.do")
+	public ModelAndView reply(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("message/createEmail");
+		String ref = request.getParameter("ref");
+		EmailMessageDTO newMsgDto = new EmailMessageDTO();
+		
+		if(!StringUtils.isEmpty(ref)){
+			EmailMessageDTO oldMsgDto = messageManagementService.getEmailBySysRefMsg(ref);
+			newMsgDto = handleReplyOrForward(oldMsgDto , ActionFlag.EMAIL_REPLY);
+			mv.addObject("originalSysRefMsg", oldMsgDto.getSysRefMessage());
+			mv.addObject("replyOrForward",true);
+		}
+		mv.addObject("emailMessageDTO",newMsgDto);
+		return mv;
+	}
+	
+	@RequestMapping(value="/message/singledelete.do")
+	public void singleDelete(HttpServletRequest request , HttpServletResponse response){
+		try{
+			response.setContentType("text/plain");
+			String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
+			String ref = request.getParameter("ref");
+			
+			boolean deleteForever = false;
+			if(ActionFlag.EMAIL_DELETE_FOREVER.equals(actionFlag)){
+				deleteForever = true;
+			}
+			
+			messageManagementService.deleteEmailMessage(ref, deleteForever);
+			response.getWriter().write("\"success\":\"true\"");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

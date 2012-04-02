@@ -11,4 +11,5 @@ public interface MessageManagementService {
 	public Integer getMessagesCountForSearch(EmailMessagePagedCriteria pagedCriteria);
 	public EmailMessageDTO viewMessageDetail(String sysRefMessage,String boxType);
 	public void deleteEmailMessage(String sysRefMsg , boolean foreverDelete);
+	public EmailMessageDTO getEmailBySysRefMsg(String sysRefMsg);
 }

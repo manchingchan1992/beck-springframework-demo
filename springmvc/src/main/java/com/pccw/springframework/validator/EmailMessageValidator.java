@@ -73,6 +73,6 @@ public class EmailMessageValidator extends BaseValidator{
 	}
 
 	private void validateMessageContent(EmailMessageDTO dto, Errors errors) {
-		validateStringLength(dto, errors, "messageContent", MessageConstant.KEY_ERROR_INVALID_EMAIL_CONTENT_LENGTH, MessageConstant.DEFAULT_ERR_MSG_INVALID_EMAIL_CONTENT_LENGTH, 30);
+		validateStringLength(dto, errors, "messageContent", MessageConstant.KEY_ERROR_INVALID_EMAIL_CONTENT_LENGTH, MessageConstant.DEFAULT_ERR_MSG_INVALID_EMAIL_CONTENT_LENGTH, 4000);
 	}
 }
