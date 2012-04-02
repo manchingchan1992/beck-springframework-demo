@@ -6,6 +6,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OA-MSG-004</title>
+<script type="text/javascript">
+function singleDelete(sysRefMsg ,actionFlagStr){
+	if(actionFlagStr != '' && confirm('确认删除该邮件？')){
+		$.ajax({
+			async:false,
+			url:'${ctx}/message/singledelete.do?ref=' + sysRefMsg +'&actionFlag=' + actionFlagStr,
+			success:function (){
+				window.location.href = '${back}'
+			},
+			error:function(){
+				alert('删除失败!');
+			}
+		});
+	}
+}
+</script>
 </head>
 <body>
 	<div class="boxTitleBar">
@@ -19,11 +35,11 @@
 		      <tr>
 		         <td>
 		            <input type="button" value="<<返回" onclick="location.href='${back}'"/>
-		            <input type="button" value="回复" onclick="#"/>
-		            <input type="button" value="回复全部" onclick="#"/>
-		            <input type="button" value="转发" onclick="#"/>
-		            <input type="button" value="删除" onclick="#"/>
-		            <input type="button" value="彻底删除" onclick="#"/>
+		            <input type="button" value="回复" onclick="location.href='${ctx}/message/reply.do?ref=${emailMessageDTO.sysRefMessage}'"/>
+		            <input type="button" value="回复全部" onclick="location.href='${ctx}/message/reply.do?ref=${emailMessageDTO.sysRefMessage}&type=all'"/>
+		            <input type="button" value="转发" onclick="location.href='${ctx}/message/forward.do?ref=${emailMessageDTO.sysRefMessage}'"/>
+		            <input type="button" value="删除" onclick="singleDelete('${emailMessageDTO.sysRefMessage}', '40')"/>
+		            <input type="button" value="彻底删除" onclick="singleDelete('${emailMessageDTO.sysRefMessage}' ,'50')"/>
 		         </td>
 		      </tr>
 		   </table>
@@ -67,11 +83,11 @@
 		      <tr>
 		         <td>
 		            <input type="button" value="<<返回" onclick="location.href='${back}'"/>
-		            <input type="button" value="回复" onclick="#"/>
-		            <input type="button" value="回复全部" onclick="#"/>
-		            <input type="button" value="转发" onclick="#"/>
-		            <input type="button" value="删除" onclick="#"/>
-		            <input type="button" value="彻底删除" onclick="#"/>
+		            <input type="button" value="回复" onclick="location.href='${ctx}/message/reply.do?ref=${emailMessageDTO.sysRefMessage}'"/>
+		            <input type="button" value="回复全部" onclick="location.href='${ctx}/message/reply.do?ref=${emailMessageDTO.sysRefMessage}&type=all'"/>
+		            <input type="button" value="转发" onclick="location.href='${ctx}/message/forward.do?ref=${emailMessageDTO.sysRefMessage}'"/>
+		            <input type="button" value="删除" onclick="singleDelete('${emailMessageDTO.sysRefMessage}','40')"/>
+		            <input type="button" value="彻底删除" onclick="singleDelete('${emailMessageDTO.sysRefMessage}','50')"/>
 		         </td>
 		      </tr>
 		   </table>
