@@ -79,4 +79,8 @@ public class MessageManagementServiceImpl implements MessageManagementService{
 			messageManagementDao.markEmailAsDelete(sysRefMsg);
 		}
 	}
+	
+	public EmailMessageDTO getEmailBySysRefMsg(String sysRefMsg){
+		return EmailMessageManagementConvertor.toDto(messageManagementDao.getEmailMessageBySysRefMsg(sysRefMsg));
+	}
 }
