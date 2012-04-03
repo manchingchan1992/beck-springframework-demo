@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.pccw.springframework.dto.OfficeRoleDTO;
 import com.pccw.springframework.dto.OfficeUserDTO;
+import com.pccw.springframework.dto.OfficeUserEnquireDTO;
+import com.pccw.springframework.dto.OfficeUserPagedCriteria;
 import com.pccw.springframework.repository.OfficeRole;
 import com.pccw.springframework.repository.OfficeUser;
 
@@ -23,6 +26,7 @@ public class OfficeUserConvertor {
 		
 		BasePropertiesConvertor.toDto(usr, dto);
 		
+		dto.setUserRecId(StringUtils.isEmpty(usr.getUserRecId()) ? "" : usr.getUserRecId());
 		dto.setLoginId(StringUtils.isEmpty(usr.getLoginId()) ? "" : usr.getLoginId());
 		dto.setPassword(StringUtils.isEmpty(usr.getPassword()) ? "" : usr.getPassword());
 		dto.setAccountStatus(StringUtils.isEmpty(usr.getAccountStatus()) ? "" : usr.getAccountStatus());
@@ -75,5 +79,22 @@ public class OfficeUserConvertor {
 		usr.setRoles(roles);
 		
 		return usr;
+	}
+	
+	public static OfficeUserPagedCriteria toPagedCriteria(OfficeUserEnquireDTO officeUserEnquireDto){
+		OfficeUserPagedCriteria pagedCriteria = new OfficeUserPagedCriteria();
+		
+		if(officeUserEnquireDto == null){
+			return pagedCriteria;
+		}
+		
+		BeanUtils.copyProperties(officeUserEnquireDto , pagedCriteria);
+		
+		if(officeUserEnquireDto.getJmesaDto() != null && officeUserEnquireDto.getJmesaDto().getRowSelect() != null){
+			pagedCriteria.getPagedCriteria().getPageFilter().setRowStart(officeUserEnquireDto.getJmesaDto().getRowSelect().getRowStart());
+			pagedCriteria.getPagedCriteria().getPageFilter().setRowEnd(officeUserEnquireDto.getJmesaDto().getRowSelect().getRowEnd());
+		}
+		
+		return pagedCriteria;
 	}
 }

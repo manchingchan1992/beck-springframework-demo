@@ -34,7 +34,7 @@ import com.pccw.springframework.validator.EmailMessageValidator;
 
 @Controller
 @SessionAttributes(value={"emailMessageDTO" , "emailMessageEnquireDto"})
-public class MessageManagementController extends MessageManagementBaseController{
+public class MessageManagementController extends BaseMessageManagementController{
 	
 	@Autowired
 	private EmailMessageValidator emailMessageValidator;
