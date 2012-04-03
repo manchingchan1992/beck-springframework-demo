@@ -1546,6 +1546,15 @@ dl.bitem dd {
 	text-align:right;
 	font-family:Tahoma, Trebuchet MS , Arial , Verdana , sans-serif;
 }
-
+/*--------------- lable column start------------------------------*/
+.labelColumn {
+	color:#666666;
+	font-weight:bold;
+	font-size:12px;
+	text-align:left;
+	background-color:#eeeeee;
+	color:#00688B;
+}
+/*--------------- lable column ent --------------------------------*/
 
 
