@@ -32,6 +32,7 @@ public class OfficeUserManagementServiceImpl implements OfficeUserManagementServ
 		return OfficeUserConvertor.toDto(user , false);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<OfficeRoleDTO> getAvailableRoles(){
 		List<OfficeRole> roles = officeUserDao.getAvailableRoles();
 		List<OfficeRoleDTO> dtos = new ArrayList<OfficeRoleDTO>();
@@ -45,6 +46,7 @@ public class OfficeUserManagementServiceImpl implements OfficeUserManagementServ
 		return dtos;
 	}
 	
+	@Transactional(readOnly=true)
 	public List<OfficeUserDTO> searchUsersByCriteria(OfficeUserPagedCriteria pagedCriteria){
 		List<OfficeUser> users = officeUserDao.searchUsersByCriteria(pagedCriteria);
 		List<OfficeUserDTO> dtos = new ArrayList<OfficeUserDTO>();
@@ -57,11 +59,22 @@ public class OfficeUserManagementServiceImpl implements OfficeUserManagementServ
 		return dtos;
 	}
 	
+	@Transactional(readOnly=true)
 	public int getUsersCountByCriteria(OfficeUserPagedCriteria pagedCriteria){
 		return officeUserDao.getUsersCountByCriteria(pagedCriteria);
 	}
 	
+	@Transactional(readOnly=true)
 	public OfficeUserDTO getUserByUserRecId(String usrRecId){
-		return OfficeUserConvertor.toDto(officeUserDao.getUserByUsrRecId(usrRecId), false);
+		return OfficeUserConvertor.toDto(officeUserDao.getUserByUsrRecId(usrRecId), true);
+	}
+	
+	@Transactional(readOnly=true)
+	public OfficeUserDTO getUserByLoginId(String loginId){
+		return OfficeUserConvertor.toDto(officeUserDao.getOfficeUserByLoginId(loginId), false);
+	}
+	
+	public void updateUser(OfficeUserDTO officeUserDto){
+		officeUserDao.updateUser(OfficeUserConvertor.toPo(officeUserDto));
 	}
 }

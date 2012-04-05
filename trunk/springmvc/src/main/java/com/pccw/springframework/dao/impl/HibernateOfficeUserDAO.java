@@ -203,5 +203,9 @@ public class HibernateOfficeUserDAO implements OfficeUserDAO{
 		
 		return usr ;
 	}
+	
+	public void updateUser(OfficeUser usr){
+		hibernateTemplate.update(usr);
+	}
 
 }
