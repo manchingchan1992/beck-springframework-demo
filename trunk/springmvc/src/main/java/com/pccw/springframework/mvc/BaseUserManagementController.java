@@ -73,7 +73,7 @@ public class BaseUserManagementController extends BaseController{
 				StringBuffer buffer = new StringBuffer();
 				buffer.append("<a href=\"");
 				buffer.append(contextPath);
-				buffer.append("authentication/usrMgmt/usrMaintenance.do?id=");
+				buffer.append("/authentication/usrMgmt/usrMaintenance.do?id=");
 				buffer.append(dto.getUserRecId().trim());
 				buffer.append("\">");
 				buffer.append(dto.getLoginId());

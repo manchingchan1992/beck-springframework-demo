@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.jmesa.limit.Limit;
 import org.jmesa.model.PageItems;
 import org.jmesa.model.TableModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -74,17 +76,31 @@ public class UserManagementController extends BaseUserManagementController{
 		mv.addObject("html", model.render());
 	}
 
-	@RequestMapping(value="/authentication/userMagement/preCreateUserAccount.do")
+	@RequestMapping(value="/authentication/usrMgmt/preCreateUserAccount.do")
 	public ModelAndView preCreateUserAccount(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("authentication/usrMgmt/accountCreate");
 		mv.addObject("officeUserDto", new OfficeUserDTO());
 		return mv;
 	}
 	
-	@RequestMapping(value="/authentication/userMagement/createUserAccount.do")
+	@RequestMapping(value="/authentication/usrMgmt/createUserAccount.do")
 	public ModelAndView createUserAccount(HttpServletRequest request, @ModelAttribute("officeUserDto")OfficeUserDTO officeUserDto){
 		ModelAndView mv = new ModelAndView("redirect:/authentication/usrMgmt/initUsrMgmt.do");
 		
 		return null;
+	}
+	
+	@RequestMapping(value="/authentication/usrMgmt/usrMaintenance.do")
+	public ModelAndView userAccountMaintenance(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("authentication/usrMgmt/accountMaintenance");
+		String usrRecId = request.getParameter("id");
+		
+		if(StringUtils.isEmpty(usrRecId)){
+			mv = new ModelAndView("authentication/usrMgmt/accountManagement");
+			return mv;
+		}
+		
+		mv.addObject("officeUserDto", officeUsrMgmtService.getUserByUserRecId(usrRecId));
+		return mv;
 	}
 }
