@@ -11,4 +11,5 @@ public interface OfficeUserManagementService {
 	public List<OfficeRoleDTO> getAvailableRoles();
 	public List<OfficeUserDTO> searchUsersByCriteria(OfficeUserPagedCriteria pagedCriteria);
 	public int getUsersCountByCriteria(OfficeUserPagedCriteria pagedCriteria);
+	public OfficeUserDTO getUserByUserRecId(String usrRecId);
 }

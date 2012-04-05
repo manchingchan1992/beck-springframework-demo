@@ -60,4 +60,8 @@ public class OfficeUserManagementServiceImpl implements OfficeUserManagementServ
 	public int getUsersCountByCriteria(OfficeUserPagedCriteria pagedCriteria){
 		return officeUserDao.getUsersCountByCriteria(pagedCriteria);
 	}
+	
+	public OfficeUserDTO getUserByUserRecId(String usrRecId){
+		return OfficeUserConvertor.toDto(officeUserDao.getUserByUsrRecId(usrRecId), false);
+	}
 }

@@ -188,5 +188,20 @@ public class HibernateOfficeUserDAO implements OfficeUserDAO{
 			query.setString("roleId", pagedCriteria.getRole());
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public OfficeUser getUserByUsrRecId(final String usrRecId){
+		OfficeUser usr = (OfficeUser)hibernateTemplate.execute(new HibernateCallback(){
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				String hql = "SELECT usr FROM OfficeUser usr WHERE usr.userRecId = :usrRecId AND usr.lastTransactionIndicator != 'D' ";
+				Query query = session.createQuery(hql);
+				query.setString("usrRecId", usrRecId);
+				return query.uniqueResult();
+			}
+		});
+		
+		return usr ;
+	}
 
 }
