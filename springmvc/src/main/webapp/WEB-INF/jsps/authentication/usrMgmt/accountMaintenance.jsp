@@ -21,7 +21,7 @@
 		            <input type="button" value="重置密码" onclick=""/>
 		            <input type="button" value="分配/修改用户角色" onclick=""/>
 		            <input type="submit" value="保存"/>
-		            <input type="reset" value="关闭"/>
+		            <input type="reset" value="关闭" onclick="location.href='${ctx}/authentication/usrMgmt/initUsrMgmt.do'"/>
 		         </td>
 		      </tr>
 		   </table>
@@ -73,7 +73,7 @@
 		            <input type="button" value="重置密码" onclick=""/>
 		            <input type="button" value="分配/修改用户角色" onclick=""/>
 		            <input type="submit" value="保存"/>
-		            <input type="reset" value="关闭"/>
+		            <input type="reset" value="关闭" onclick="location.href='${ctx}/authentication/usrMgmt/initUsrMgmt.do'"/>
 		         </td>
 		      </tr>
 		   </table>
