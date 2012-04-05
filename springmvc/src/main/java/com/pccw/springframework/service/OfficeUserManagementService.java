@@ -12,4 +12,6 @@ public interface OfficeUserManagementService {
 	public List<OfficeUserDTO> searchUsersByCriteria(OfficeUserPagedCriteria pagedCriteria);
 	public int getUsersCountByCriteria(OfficeUserPagedCriteria pagedCriteria);
 	public OfficeUserDTO getUserByUserRecId(String usrRecId);
+	public OfficeUserDTO getUserByLoginId(String loginId);
+	public void updateUser(OfficeUserDTO officeUserDto);
 }

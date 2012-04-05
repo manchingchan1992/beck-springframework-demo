@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.pccw.springframework.convertor.OfficeUserConvertor;
 import com.pccw.springframework.dto.OfficeRoleDTO;
@@ -23,13 +24,17 @@ import com.pccw.springframework.dto.OfficeUserDTO;
 import com.pccw.springframework.dto.OfficeUserEnquireDTO;
 import com.pccw.springframework.dto.OfficeUserPagedCriteria;
 import com.pccw.springframework.service.OfficeUserManagementService;
+import com.pccw.springframework.validator.OfficeUserValidator;
 
 @Controller
-@SessionAttributes({"userEnquireDto" , "availableRoles"})
+@SessionAttributes({"userEnquireDto" , "availableRoles" , "officeUserDto"})
 public class UserManagementController extends BaseUserManagementController{
 	
 	@Autowired
 	private OfficeUserManagementService officeUsrMgmtService;
+	
+	@Autowired
+	private OfficeUserValidator officeUserValidator; 
 	
 	@RequestMapping(value="/authentication/usrMgmt/initUsrMgmt.do")
 	public ModelAndView initUserManagement(HttpServletRequest request){
@@ -101,6 +106,21 @@ public class UserManagementController extends BaseUserManagementController{
 		}
 		
 		mv.addObject("officeUserDto", officeUsrMgmtService.getUserByUserRecId(usrRecId));
+		return mv;
+	}
+	
+	@RequestMapping(value="/authentication/usrMgmt/updateOfficeUserDetail.do")
+	public ModelAndView updateUser(HttpServletRequest request ,@ModelAttribute("officeUserDto")OfficeUserDTO officeUserDto , BindingResult errors){
+		ModelAndView mv = new ModelAndView(new RedirectView("/authentication/usrMgmt/initUsrMgmt.do", true));
+		
+		officeUserValidator.validate(officeUserDto, errors, true);
+		if(errors.hasErrors()){
+			mv = new ModelAndView("authentication/usrMgmt/accountMaintenance");
+			mv.addObject("officeUserDto", officeUserDto);
+			return mv;
+		}
+		
+		officeUsrMgmtService.updateUser(officeUserDto);
 		return mv;
 	}
 }

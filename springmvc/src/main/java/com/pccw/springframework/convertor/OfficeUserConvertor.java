@@ -34,7 +34,7 @@ public class OfficeUserConvertor {
 		dto.setCnName(StringUtils.isEmpty(usr.getCnName()) ? "" : usr.getCnName());
 		dto.setEmail(StringUtils.isEmpty(usr.getEmail()) ? "" : usr.getEmail());
 		
-		if(needConvertRoles){			
+		if(true){			
 			List<OfficeRole> roles = usr.getRoles();
 			List<OfficeRoleDTO> roleDtos = new ArrayList<OfficeRoleDTO>();
 			
@@ -60,6 +60,7 @@ public class OfficeUserConvertor {
 		
 		BasePropertiesConvertor.toPo(usr, dto);
 		
+		usr.setUserRecId(StringUtils.isEmpty(dto.getUserRecId()) ? "" : dto.getUserRecId());
 		usr.setLoginId(StringUtils.isEmpty(dto.getLoginId()) ? "" : dto.getLoginId());
 		usr.setPassword(StringUtils.isEmpty(dto.getPassword()) ? "" : dto.getPassword());
 		usr.setAccountStatus(StringUtils.isEmpty(dto.getAccountStatus()) ? "" : dto.getAccountStatus());

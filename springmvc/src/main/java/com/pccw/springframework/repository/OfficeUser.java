@@ -90,7 +90,7 @@ public class OfficeUser extends BaseEntity {
 		this.email = email;
 	}
 
-	@ManyToMany(fetch=FetchType.LAZY , cascade={CascadeType.ALL})
+	@ManyToMany(fetch=FetchType.EAGER , cascade={CascadeType.ALL})
 	@JoinTable(
 			name="T_OA_USR_ROLE_ASGN",
 			joinColumns={@JoinColumn(name="USR_REC_ID")},

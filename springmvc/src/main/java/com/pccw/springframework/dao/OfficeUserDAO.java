@@ -13,4 +13,5 @@ public interface OfficeUserDAO {
 	public List<OfficeUser> searchUsersByCriteria(OfficeUserPagedCriteria pagedCriteria);
 	public int getUsersCountByCriteria(OfficeUserPagedCriteria pagedCriteria);
 	public OfficeUser getUserByUsrRecId(String usrRecId);
+	public void updateUser(OfficeUser usr);
 }

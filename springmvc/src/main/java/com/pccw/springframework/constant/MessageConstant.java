@@ -42,4 +42,13 @@ public class MessageConstant {
 	
 	public static String KEY_ERROR_ACC_ST_REQUIRED = "OA-E-0506";
 	public static String DEFAULT_ERR_MSG_ACC_ST_REQUIRED = "请选择用户状态";
+	
+	public static String KEY_ERROR_EXISTED_LOGINID = "OA-E-0507";
+	public static String DEFAULT_ERR_MSG_EXISTED_LOGINID = "该用户名已存在，请重新输入";
+	
+	public static String KEY_ERROR_EN_NAME_MAX_LENGTH = "OA-E-0508";
+	public static String DEFAULT_ERR_MSG_EN_NAME_MAX_LENGTH = "您输入的英文名超过最大长度20字节，请重新输入";
+	
+	public static String KEY_ERROR_CN_NAME_MAX_LENGTH = "OA-E-05-09";
+	public static String DEFAULT_ERR_MSG_CN_NAME_MAX_LENGTH = "您输入的中文名超过最大长度20字节，请重新输入";
 }
