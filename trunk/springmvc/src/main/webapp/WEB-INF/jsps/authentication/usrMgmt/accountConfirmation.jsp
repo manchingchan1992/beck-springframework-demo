@@ -49,9 +49,9 @@
 		</tr>
 		<tr class="contentTableRow1">
 		   <td width="20%" class="contentLableTd">中文名</td>
-		   <td width="30%" class="contentViewTd"><c:out value="${officeUserDto.enName}" escapeXml="true"></c:out></td>
-		   <td width="20%" class="contentLableTd">英文名</td>
 		   <td width="30%" class="contentViewTd"><c:out value="${officeUserDto.cnName}" escapeXml="true"></c:out></td>
+		   <td width="20%" class="contentLableTd">英文名</td>
+		   <td width="30%" class="contentViewTd"><c:out value="${officeUserDto.enName}" escapeXml="true"></c:out></td>
 		</tr>
 		<tr class="contentTableRow1">
 	      <td colspan="4" class="contentLableTd">
