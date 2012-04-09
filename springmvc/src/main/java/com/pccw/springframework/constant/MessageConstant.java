@@ -51,4 +51,7 @@ public class MessageConstant {
 	
 	public static String KEY_ERROR_CN_NAME_MAX_LENGTH = "OA-E-05-09";
 	public static String DEFAULT_ERR_MSG_CN_NAME_MAX_LENGTH = "您输入的中文名超过最大长度20字节，请重新输入";
+	
+	public static String KEY_ERROR_INVALID_ROLE_ID = "OA-E-0510";
+	public static String DEFAULT_ERR_MSG_INVALID_ROLE_ID = "您输入的角色代号格式不正确，请重新输入";
 }

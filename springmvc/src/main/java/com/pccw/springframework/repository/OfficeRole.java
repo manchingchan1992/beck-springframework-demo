@@ -12,6 +12,7 @@ public class OfficeRole extends BaseEntity {
 	private String roleId;
 	private String roleName;
 	private String roleDesc;
+	private String status;
 
 	@Id
 	@Column(name="SYS_REF_ROLE", length=3)
@@ -50,4 +51,12 @@ public class OfficeRole extends BaseEntity {
 		this.roleDesc = roleDesc;
 	}
 
+	@Column(name="ROLE_STAT" , length=2 ,nullable=false)
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }
