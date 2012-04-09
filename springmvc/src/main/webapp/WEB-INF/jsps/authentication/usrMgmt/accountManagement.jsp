@@ -17,7 +17,7 @@
 		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
 		      <tr>
 		         <td>
-		            <input type="button" value="创建新用户" onclick="location.href='${ctx}/authentication/userMagement/preCreateUserAccount.do'"/>
+		            <input type="button" value="创建新用户" onclick="location.href='${ctx}/authentication/usrMgmt/preCreateUserAccount.do'"/>
 		            <input type="submit" value="查询"/>
 		            <input type="reset" value="重置"/>
 		         </td>
@@ -70,7 +70,7 @@
 		   <table align="left" border="0" cellpadding="0" cellspacing="0" style="background-color:#EFEFEF;width:100%" >
 		      <tr>
 		         <td>
-		            <input type="button" value="创建新用户"/>
+		            <input type="button" value="创建新用户" onclick="location.href='${ctx}/authentication/usrMgmt/preCreateUserAccount.do'"/>
 		            <input type="submit" value="查询" />
 		            <input type="reset" value="重置" />
 		         </td>
