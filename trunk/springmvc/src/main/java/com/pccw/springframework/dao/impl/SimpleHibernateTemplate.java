@@ -30,7 +30,6 @@ public class SimpleHibernateTemplate<T, PK extends Serializable>{
 		if(entity instanceof BaseEntity){
 			((BaseEntity)entity).setLastTransactionIndicator(TransactionIndicator.INSERT);
 		}
-		System.out.println("------------------------" + (this.sessionFactory==null));
 		getSession().save( entity );
 	}
 	

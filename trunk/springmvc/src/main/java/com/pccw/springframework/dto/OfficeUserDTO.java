@@ -17,8 +17,10 @@ public class OfficeUserDTO extends BaseDTO implements Serializable,UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private String userRecId;
+	private String encodedUserRecId;
 	private String loginId;
 	private String password;
+	private String confirmPassword;
 	private String accountStatus;
 	private String enName;
 	private String cnName;
@@ -122,5 +124,21 @@ public class OfficeUserDTO extends BaseDTO implements Serializable,UserDetails {
 			return true;
 		}
 		return false;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public String getEncodedUserRecId() {
+		return encodedUserRecId;
+	}
+
+	public void setEncodedUserRecId(String encodedUserRecId) {
+		this.encodedUserRecId = encodedUserRecId;
 	}
 }

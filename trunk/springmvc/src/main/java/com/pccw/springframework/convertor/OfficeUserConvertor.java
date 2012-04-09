@@ -7,12 +7,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
+import com.pccw.springframework.constant.CommonConstant;
 import com.pccw.springframework.dto.OfficeRoleDTO;
 import com.pccw.springframework.dto.OfficeUserDTO;
 import com.pccw.springframework.dto.OfficeUserEnquireDTO;
 import com.pccw.springframework.dto.OfficeUserPagedCriteria;
 import com.pccw.springframework.repository.OfficeRole;
 import com.pccw.springframework.repository.OfficeUser;
+import com.pccw.springframework.utility.StringEncodeUtility;
 
 public class OfficeUserConvertor {
 	
@@ -33,6 +35,8 @@ public class OfficeUserConvertor {
 		dto.setEnName(StringUtils.isEmpty(usr.getEnName()) ? "" : usr.getEnName());
 		dto.setCnName(StringUtils.isEmpty(usr.getCnName()) ? "" : usr.getCnName());
 		dto.setEmail(StringUtils.isEmpty(usr.getEmail()) ? "" : usr.getEmail());
+		
+		dto.setEncodedUserRecId(StringEncodeUtility.encode(usr.getUserRecId(), CommonConstant.STRING_ENCODE_BY_DEFAULT));
 		
 		if(true){			
 			List<OfficeRole> roles = usr.getRoles();
