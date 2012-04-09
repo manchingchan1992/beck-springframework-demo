@@ -30,6 +30,7 @@ import com.pccw.springframework.dto.EmailMessageEnquireDTO;
 import com.pccw.springframework.dto.EmailMessagePagedCriteria;
 import com.pccw.springframework.service.MessageManagementService;
 import com.pccw.springframework.utility.SecurityUtils;
+import com.pccw.springframework.utility.StringEncodeUtility;
 import com.pccw.springframework.validator.EmailMessageValidator;
 
 @Controller
@@ -136,9 +137,11 @@ public class MessageManagementController extends BaseMessageManagementController
 	@RequestMapping(value="/message/viewEmailMessageDetail.do")
 	public ModelAndView viewEmailMessageDetail(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("message/viewMessageDetail");
-		String sysRefMessage = request.getParameter("msg");
+		String sysRefMessage = StringEncodeUtility.decode(request.getParameter("msg"), CommonConstant.STRING_ENCODE_BY_DEFAULT);
 		String type = request.getParameter("type");
-		mv.addObject("emailMessageDTO",this.messageManagementService.viewMessageDetail(sysRefMessage,type));
+		EmailMessageDTO emailMessageDto = this.messageManagementService.viewMessageDetail(sysRefMessage,type);
+		emailMessageDto.setSysRefMessage(StringEncodeUtility.encode(emailMessageDto.getSysRefMessage(), CommonConstant.STRING_ENCODE_BY_DEFAULT));
+		mv.addObject("emailMessageDTO",emailMessageDto);
 		if (CommonConstant.OUTBOX.equals(type)){
 			mv.addObject("back",request.getContextPath() + "/message/initOutbox.do");
 		}else if (CommonConstant.RECYCLE.equals(type)){
@@ -250,7 +253,7 @@ public class MessageManagementController extends BaseMessageManagementController
 	@RequestMapping(value="/message/forward.do")
 	public ModelAndView forward(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("message/createEmail");
-		String ref = request.getParameter("ref");
+		String ref = StringEncodeUtility.decode(request.getParameter("ref"),CommonConstant.STRING_ENCODE_BY_DEFAULT);
 		EmailMessageDTO newMsgDto = new EmailMessageDTO();
 		
 		if(!StringUtils.isEmpty(ref)){
@@ -293,7 +296,7 @@ public class MessageManagementController extends BaseMessageManagementController
 	@RequestMapping(value="/message/reply.do")
 	public ModelAndView reply(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("message/createEmail");
-		String ref = request.getParameter("ref");
+		String ref = StringEncodeUtility.decode(request.getParameter("ref"),CommonConstant.STRING_ENCODE_BY_DEFAULT);
 		EmailMessageDTO newMsgDto = new EmailMessageDTO();
 		
 		if(!StringUtils.isEmpty(ref)){
@@ -311,7 +314,7 @@ public class MessageManagementController extends BaseMessageManagementController
 		try{
 			response.setContentType("text/plain");
 			String actionFlag = request.getParameter(ActionFlag.ACTION_FLAG);
-			String ref = request.getParameter("ref");
+			String ref = StringEncodeUtility.decode(request.getParameter("ref"),CommonConstant.STRING_ENCODE_BY_DEFAULT);
 			
 			boolean deleteForever = false;
 			if(ActionFlag.EMAIL_DELETE_FOREVER.equals(actionFlag)){

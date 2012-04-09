@@ -22,7 +22,7 @@ public class OfficeUserValidator extends BaseValidator{
 	}
 
 	public void validate(Object object, Errors errors) {
-
+		
 	}
 	
 	public void validate(Object object , Errors errors , boolean isUpdate){

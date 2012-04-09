@@ -13,6 +13,7 @@ import com.pccw.springframework.constant.DateFormatConstant;
 import com.pccw.springframework.dto.EmailMessageDTO;
 import com.pccw.springframework.dto.JmesaCheckBoxDTO;
 import com.pccw.springframework.utility.DateUtils;
+import com.pccw.springframework.utility.StringEncodeUtility;
 
 public class BaseMessageManagementController extends BaseController{
 	
@@ -62,7 +63,7 @@ public class BaseMessageManagementController extends BaseController{
 				buffer.append("<span><a href=\"");
 				buffer.append(contextPath);
 				buffer.append("/message/viewEmailMessageDetail.do?msg=");
-				buffer.append(((EmailMessageDTO)item).getSysRefMessage());
+				buffer.append(StringEncodeUtility.encode(((EmailMessageDTO)item).getSysRefMessage(), CommonConstant.STRING_ENCODE_BY_DEFAULT));
 				buffer.append("&type=O");
 				buffer.append("\">");
 				buffer.append(((EmailMessageDTO)item).getMessageTo());
@@ -166,7 +167,7 @@ public class BaseMessageManagementController extends BaseController{
 				buffer.append("<a href=\"");
 				buffer.append(contextPath);
 				buffer.append("/message/viewEmailMessageDetail.do?msg=");
-				buffer.append(((EmailMessageDTO)item).getSysRefMessage());
+				buffer.append(StringEncodeUtility.encode(((EmailMessageDTO)item).getSysRefMessage(), CommonConstant.STRING_ENCODE_BY_DEFAULT));
 				buffer.append("&type=I");
 				buffer.append("\">");
 				buffer.append(((EmailMessageDTO)item).getMessageTo());

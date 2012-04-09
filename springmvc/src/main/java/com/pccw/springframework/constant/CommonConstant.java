@@ -17,4 +17,7 @@ public class CommonConstant {
 	public static String NO = "N";
 	
 	public static String STRING_ENCODE_BY_MD5 = "MD5";
+	public static String STRING_ENCODE_BY_DEFAULT = "BASE64";
+	
+	public static String EMPTY_STRING = "";
 }

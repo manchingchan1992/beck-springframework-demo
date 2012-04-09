@@ -16,18 +16,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
+import com.pccw.springframework.constant.CommonConstant;
 import com.pccw.springframework.convertor.OfficeUserConvertor;
 import com.pccw.springframework.dto.OfficeRoleDTO;
 import com.pccw.springframework.dto.OfficeUserDTO;
 import com.pccw.springframework.dto.OfficeUserEnquireDTO;
 import com.pccw.springframework.dto.OfficeUserPagedCriteria;
 import com.pccw.springframework.service.OfficeUserManagementService;
+import com.pccw.springframework.utility.StringEncodeUtility;
 import com.pccw.springframework.validator.OfficeUserValidator;
 
 @Controller
-@SessionAttributes({"userEnquireDto" , "availableRoles" , "officeUserDto"})
+@SessionAttributes({"userEnquireDto" , 
+	                "availableRoles" , 
+	                "officeUserDto"})
 public class UserManagementController extends BaseUserManagementController{
 	
 	@Autowired
@@ -89,29 +92,39 @@ public class UserManagementController extends BaseUserManagementController{
 	}
 	
 	@RequestMapping(value="/authentication/usrMgmt/createUserAccount.do")
-	public ModelAndView createUserAccount(HttpServletRequest request, @ModelAttribute("officeUserDto")OfficeUserDTO officeUserDto){
+	public ModelAndView createUserAccount(HttpServletRequest request, @ModelAttribute("officeUserDto")OfficeUserDTO officeUserDto , BindingResult errors){
 		ModelAndView mv = new ModelAndView("redirect:/authentication/usrMgmt/initUsrMgmt.do");
 		
-		return null;
+		officeUserValidator.validate(officeUserDto, errors, false);
+		
+		if(errors.hasErrors()){
+			mv = new ModelAndView("authentication/usrMgmt/accountCreate");
+			mv.addObject("officeUserDto", officeUserDto);
+			return mv;
+		}
+		
+		
+		return mv;
 	}
 	
 	@RequestMapping(value="/authentication/usrMgmt/usrMaintenance.do")
 	public ModelAndView userAccountMaintenance(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("authentication/usrMgmt/accountMaintenance");
-		String usrRecId = request.getParameter("id");
+		String usrRecId = StringEncodeUtility.decode(request.getParameter("id") , CommonConstant.STRING_ENCODE_BY_DEFAULT);
 		
 		if(StringUtils.isEmpty(usrRecId)){
 			mv = new ModelAndView("authentication/usrMgmt/accountManagement");
 			return mv;
 		}
 		
-		mv.addObject("officeUserDto", officeUsrMgmtService.getUserByUserRecId(usrRecId));
+		OfficeUserDTO officeUserDto = officeUsrMgmtService.getUserByUserRecId(usrRecId);
+		mv.addObject("officeUserDto", officeUserDto);
 		return mv;
 	}
 	
 	@RequestMapping(value="/authentication/usrMgmt/updateOfficeUserDetail.do")
 	public ModelAndView updateUser(HttpServletRequest request ,@ModelAttribute("officeUserDto")OfficeUserDTO officeUserDto , BindingResult errors){
-		ModelAndView mv = new ModelAndView(new RedirectView("/authentication/usrMgmt/initUsrMgmt.do", true));
+		ModelAndView mv = new ModelAndView("authentication/usrMgmt/accountConfirmation");
 		
 		officeUserValidator.validate(officeUserDto, errors, true);
 		if(errors.hasErrors()){
@@ -121,6 +134,24 @@ public class UserManagementController extends BaseUserManagementController{
 		}
 		
 		officeUsrMgmtService.updateUser(officeUserDto);
+		mv.addObject("officeUserDto", officeUserDto);
+		return mv;
+	}
+	
+	@RequestMapping(value="/authentication/usrMgmt/initResetPassword.do")
+	public ModelAndView initResetPassword(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("authentication/usrMgmt/accountPasswordReset");
+		OfficeUserDTO officeUserDto = new OfficeUserDTO();
+		mv.addObject("officeUserDto", officeUserDto);
+		return mv;
+	}
+	
+	@RequestMapping(value="/authentication/usrMgmt/initUsrRoleAsgn.do")
+	public ModelAndView initUsrRoleAsgn(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("authentication/usrMgmt/accountRoleAssign");
+		String userRecId = StringEncodeUtility.decode(request.getParameter("id"), CommonConstant.STRING_ENCODE_BY_DEFAULT);
+		OfficeUserDTO officeUserDto = officeUsrMgmtService.getUserByUserRecId(userRecId);
+		mv.addObject("officeUserDto", officeUserDto);
 		return mv;
 	}
 }
