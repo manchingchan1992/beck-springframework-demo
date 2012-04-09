@@ -10,6 +10,12 @@ public class OfficeRoleDTO extends BaseDTO {
 	private String roleName;
 
 	private String roleDesc;
+	
+	private String status;
+	
+	private JmesaCheckBoxDTO jmesaDto;
+	
+	private String encodedSysRefNum;
 
 	public String getSystemRoleRefNum() {
 		return systemRoleRefNum;
@@ -41,5 +47,29 @@ public class OfficeRoleDTO extends BaseDTO {
 
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public JmesaCheckBoxDTO getJmesaDto() {
+		return jmesaDto;
+	}
+
+	public void setJmesaDto(JmesaCheckBoxDTO jmesaDto) {
+		this.jmesaDto = jmesaDto;
+	}
+
+	public String getEncodedSysRefNum() {
+		return encodedSysRefNum;
+	}
+
+	public void setEncodedSysRefNum(String encodedSysRefNum) {
+		this.encodedSysRefNum = encodedSysRefNum;
 	}
 }

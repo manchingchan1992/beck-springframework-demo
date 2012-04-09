@@ -20,4 +20,7 @@ public class CommonConstant {
 	public static String STRING_ENCODE_BY_DEFAULT = "BASE64";
 	
 	public static String EMPTY_STRING = "";
+	
+	public static String ACTIVE = "AC";
+	public static String INACTIVE = "IN";
 }
