@@ -4,10 +4,10 @@
 	<groupId>pccw.commons</groupId>
 	<artifactId>springmvc</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>springmvc Maven Webapp</name>
-	<url>http://maven.apache.org</url>
+	<version>0.0.1</version>
+	<name>springmvc</name>
 	<build>
+	    <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
 		<finalName>springmvc</finalName>
 		<plugins>
 			<plugin>
