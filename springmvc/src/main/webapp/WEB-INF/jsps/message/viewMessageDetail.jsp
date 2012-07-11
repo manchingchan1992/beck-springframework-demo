@@ -24,6 +24,9 @@ function singleDelete(sysRefMsg ,actionFlagStr){
 </script>
 </head>
 <body>
+    <hdiv-c:url var="replyUrl" value="/message/reply.do?ref=${emailMessageDTO.sysRefMessage}"></hdiv-c:url>
+    <hdiv-c:url var="replyAllUrl" value="/message/reply.do?ref=${emailMessageDTO.sysRefMessage}&type=all"></hdiv-c:url>
+    <hdiv-c:url var="forwardUrl" value="/message/forward.do?ref=${emailMessageDTO.sysRefMessage}"></hdiv-c:url>
 	<div class="boxTitleBar">
 		<div class="contenttitle">查看邮件</div>
 	</div>
@@ -35,9 +38,9 @@ function singleDelete(sysRefMsg ,actionFlagStr){
 		      <tr>
 		         <td>
 		            <input type="button" value="<<返回" onclick="location.href='${back}'"/>
-		            <input type="button" value="回复" onclick="location.href='${ctx}/message/reply.do?ref=${emailMessageDTO.sysRefMessage}'"/>
-		            <input type="button" value="回复全部" onclick="location.href='${ctx}/message/reply.do?ref=${emailMessageDTO.sysRefMessage}&type=all'"/>
-		            <input type="button" value="转发" onclick="location.href='${ctx}/message/forward.do?ref=${emailMessageDTO.sysRefMessage}'"/>
+		            <input type="button" value="回复" onclick="location.href='${replyUrl}'"/>
+		            <input type="button" value="回复全部" onclick="location.href='${replyAllUrl}'"/>
+		            <input type="button" value="转发" onclick="location.href='${forwardUrl}'"/>
 		            <input type="button" value="删除" onclick="singleDelete('${emailMessageDTO.sysRefMessage}', '40')"/>
 		            <input type="button" value="彻底删除" onclick="singleDelete('${emailMessageDTO.sysRefMessage}' ,'50')"/>
 		         </td>
@@ -83,9 +86,9 @@ function singleDelete(sysRefMsg ,actionFlagStr){
 		      <tr>
 		         <td>
 		            <input type="button" value="<<返回" onclick="location.href='${back}'"/>
-		            <input type="button" value="回复" onclick="location.href='${ctx}/message/reply.do?ref=${emailMessageDTO.sysRefMessage}'"/>
-		            <input type="button" value="回复全部" onclick="location.href='${ctx}/message/reply.do?ref=${emailMessageDTO.sysRefMessage}&type=all'"/>
-		            <input type="button" value="转发" onclick="location.href='${ctx}/message/forward.do?ref=${emailMessageDTO.sysRefMessage}'"/>
+		            <input type="button" value="回复" onclick="location.href='${replyUrl}'"/>
+		            <input type="button" value="回复全部" onclick="location.href='${replyAllUrl}'"/>
+		            <input type="button" value="转发" onclick="location.href='${forwardUrl}'"/>
 		            <input type="button" value="删除" onclick="singleDelete('${emailMessageDTO.sysRefMessage}','40')"/>
 		            <input type="button" value="彻底删除" onclick="singleDelete('${emailMessageDTO.sysRefMessage}','50')"/>
 		         </td>

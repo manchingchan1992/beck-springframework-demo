@@ -20,9 +20,8 @@
 	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> 
 	
 	<!-- Multipart Resolver -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="104857600"/>
-		<property name="maxInMemorySize" value="4096"/>
+	<bean id="multipartResolver" class="org.hdiv.web.multipart.HDIVMultipartResolver" >
+	   <property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 	
 	<!-- Handler Mapping -->
@@ -41,6 +40,5 @@
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" autowire="byName">
 		<property name="basename" value="messages.message"></property>
 		<property name="useCodeAsDefaultMessage" value="true"></property>
-	</bean>
-	
+	</bean>	
 </beans>

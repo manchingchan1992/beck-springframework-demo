@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app id="WebApp_ID" version="2.4"
-	xmlns="http://java.sun.com/xml/ns/j2ee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>SpringFrameWork</display-name>
-  
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
 	<!-- Context Param -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
   		/WEB-INF/classes/application-context.xml,
-  		/WEB-INF/springmvc-servlet.xml
+  		/WEB-INF/springmvc-servlet.xml,
+  		/WEB-INF/hdiv-applicationContext.xml,
+  		/WEB-INF/hdiv-config.xml,
+  		/WEB-INF/hdiv-validations.xml
 		</param-value>
 	</context-param>
-  
+
 	<!-- Encoding Filter -->
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
@@ -27,39 +33,51 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-	
+
 	<filter-mapping>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<!-- Spring Security Filter -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
-	
+
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<!-- Sitemesh -->
 	<filter>
 		<filter-name>sitemesh</filter-name>
 		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
 	</filter>
-	
+
 	<filter-mapping>
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-	<!-- Listener-->
+
+	<filter>
+		<filter-name>ValidatorFilter</filter-name>
+		<filter-class>org.hdiv.filter.ValidatorFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ValidatorFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+
+	<!-- Listener -->
+	<listener>
+		<listener-class>org.hdiv.listener.InitListener</listener-class>
+	</listener>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<!-- Servlet Dispatcher -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
@@ -71,4 +89,15 @@
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://www.hdiv.org/spring/tags/form</taglib-uri>
+			<taglib-location>/WEB-INF/tld/hdiv-spring-form.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://www.springframework.org/tags/form</taglib-uri>
+			<taglib-location>/WEB-INF/tld/spring-form.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 </web-app>
