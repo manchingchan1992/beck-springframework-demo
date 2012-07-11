@@ -58,8 +58,6 @@
 				<value>/message/initInbox.do</value>
 				<value>/message/initOutbox.do</value>
 				<value>/message/initEmail.do</value>
-				<value>/message/inboxSearch.do</value>
-				<value>/message/outboxSearch.do</value>
 			</list>			
 		</property>
 
@@ -88,8 +86,9 @@
 						<value>_.*_mr_</value>
 						<value>_.*_s_.*_.*</value>
 						<value>pageIndex</value>
-						<value>lastUpdateDate</value>
-						<value>availableRoles</value>
+						<value>jmesaDto.currSelect</value>
+						<value>jmesaDto.select</value>
+						<value>actionFlag</value>
 					</list>
 				</entry>
 			</map>
