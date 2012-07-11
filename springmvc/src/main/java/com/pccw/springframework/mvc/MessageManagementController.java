@@ -29,6 +29,7 @@ import com.pccw.springframework.dto.EmailMessageDTO;
 import com.pccw.springframework.dto.EmailMessageEnquireDTO;
 import com.pccw.springframework.dto.EmailMessagePagedCriteria;
 import com.pccw.springframework.service.MessageManagementService;
+import com.pccw.springframework.utility.RedirectViewExt;
 import com.pccw.springframework.utility.SecurityUtils;
 import com.pccw.springframework.utility.StringEncodeUtility;
 import com.pccw.springframework.validator.EmailMessageValidator;
@@ -55,7 +56,7 @@ public class MessageManagementController extends BaseMessageManagementController
 	public ModelAndView sendEmail(HttpServletRequest request,
 			@ModelAttribute(value="emailMessageDTO")EmailMessageDTO emailMessageDTO,
 			BindingResult errors){
-		ModelAndView mv = new ModelAndView("redirect:/message/initOutbox.do");
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/message/initOutbox.do", true));
 		logger.info(">>>>>Send Email Begin .....");
 		emailMessageValidator.validate(emailMessageDTO, errors);
 		
@@ -72,7 +73,7 @@ public class MessageManagementController extends BaseMessageManagementController
 	
 	@RequestMapping(value="/message/initOutbox.do")
 	public ModelAndView initOutbox(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView("redirect:/message/outboxSearch.do");
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/message/outboxSearch.do", true));
 		EmailMessageEnquireDTO enquireDto = new EmailMessageEnquireDTO();
 		mv.addObject("emailMessageEnquireDto", enquireDto);
 		request.getSession().setAttribute(ActionFlag.ACTION_FLAG, ActionFlag.SEARCH);
@@ -104,7 +105,7 @@ public class MessageManagementController extends BaseMessageManagementController
 	
 	@RequestMapping(value="/message/initInbox.do")
 	public ModelAndView initInbox(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView(new RedirectView("/message/inboxSearch.do" , true));
+		ModelAndView mv = new ModelAndView(new RedirectViewExt("/message/inboxSearch.do" , true));
 		EmailMessageEnquireDTO enquireDto = new EmailMessageEnquireDTO();
 		mv.addObject("emailMessageEnquireDto", enquireDto);
 		request.getSession().setAttribute(ActionFlag.ACTION_FLAG, ActionFlag.SEARCH);
@@ -219,9 +220,9 @@ public class MessageManagementController extends BaseMessageManagementController
 		
 		String contextPath = request.getContextPath();
 		if(CommonConstant.INBOX.equals(boxType)){
-			model.setTable(getTableForInbox(true, enquireDto.getJmesaDto() ,contextPath));
+			model.setTable(getTableForInbox(request , true, enquireDto.getJmesaDto() ,contextPath));
 		}else if(CommonConstant.OUTBOX.equals(boxType)){
-			model.setTable(getTableForOutbox(true, enquireDto.getJmesaDto() , contextPath));
+			model.setTable(getTableForOutbox(request , true, enquireDto.getJmesaDto() , contextPath));
 		}
 		
 		mv.addObject("html",model.render());
