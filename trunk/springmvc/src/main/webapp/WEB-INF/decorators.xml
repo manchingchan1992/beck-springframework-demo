@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/decorators">
-    <decorator name="main" page="main.jsp">
-        <pattern>/*</pattern>
-    </decorator>
-    
-    <decorator name="nomenu" page="nomenu.jsp">
-        <pattern>/login.do</pattern>
-    </decorator>
+	<excludes>
+		<pattern>/commons/*</pattern>
+	</excludes>
+	
+	<decorator name="main" page="main.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+
+	<decorator name="nomenu" page="nomenu.jsp">
+		<pattern>/login.do</pattern>
+	</decorator>
 </decorators>
