@@ -1,8 +1,8 @@
 package com.pccw.springframework.dto;
 
 public class SortDTO {
-	private static final String ASC = "asc";
-	private static final String DESC = "desc";
+	public static final String ASC = "asc";
+	public static final String DESC = "desc";
 	
 	private String property;
 	private String order;
