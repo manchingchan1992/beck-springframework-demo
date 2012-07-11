@@ -1,5 +1,7 @@
 package com.pccw.springframework.mvc;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.jmesa.view.component.Table;
 import org.jmesa.view.editor.CellEditor;
 import org.jmesa.view.editor.HeaderEditor;
@@ -14,10 +16,11 @@ import com.pccw.springframework.dto.EmailMessageDTO;
 import com.pccw.springframework.dto.JmesaCheckBoxDTO;
 import com.pccw.springframework.utility.DateUtils;
 import com.pccw.springframework.utility.StringEncodeUtility;
+import com.pccw.springframework.utility.URLUtils;
 
 public class BaseMessageManagementController extends BaseController{
 	
-	protected Table getTableForOutbox(boolean needCheckbox,final JmesaCheckBoxDTO jmesaDto ,final String contextPath){
+	protected Table getTableForOutbox(final HttpServletRequest request,boolean needCheckbox,final JmesaCheckBoxDTO jmesaDto ,final String contextPath){
 		HtmlTable table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
@@ -59,12 +62,15 @@ public class BaseMessageManagementController extends BaseController{
 		messageTo.setStyle("width:30% nowrap");
 		messageTo.setCellEditor(new CellEditor() {
 			public Object getValue(Object item, String properties, int rowCount) {
+				StringBuffer url = new StringBuffer();
+				url.append(contextPath);
+				url.append("/message/viewEmailMessageDetail.do?msg=");
+				url.append(StringEncodeUtility.encode(((EmailMessageDTO)item).getSysRefMessage(), CommonConstant.STRING_ENCODE_BY_DEFAULT));
+				url.append("&type=O");
+				
 				StringBuffer buffer = new StringBuffer();
 				buffer.append("<span><a href=\"");
-				buffer.append(contextPath);
-				buffer.append("/message/viewEmailMessageDetail.do?msg=");
-				buffer.append(StringEncodeUtility.encode(((EmailMessageDTO)item).getSysRefMessage(), CommonConstant.STRING_ENCODE_BY_DEFAULT));
-				buffer.append("&type=O");
+				buffer.append(URLUtils.getHDIVUrl(request, url.toString()));
 				buffer.append("\">");
 				buffer.append(((EmailMessageDTO)item).getMessageTo());
 				buffer.append("</a></span>");
@@ -98,7 +104,7 @@ public class BaseMessageManagementController extends BaseController{
 		return table;
 	}
 	
-	protected Table getTableForInbox(boolean needCheckbox,final JmesaCheckBoxDTO jmesaDto ,final String contextPath){
+	protected Table getTableForInbox(final HttpServletRequest request ,boolean needCheckbox,final JmesaCheckBoxDTO jmesaDto ,final String contextPath){
 		HtmlTable table = new HtmlTable().width("100%");
 		
 		HtmlRow row = new HtmlRow();
@@ -158,6 +164,12 @@ public class BaseMessageManagementController extends BaseController{
 		messageFrom.setCellEditor(new CellEditor() {
 			public Object getValue(Object item, String properties, int rowCount) {
 				EmailMessageDTO dto = ((EmailMessageDTO)item);
+				StringBuffer url = new StringBuffer();
+				url.append(contextPath);
+				url.append("/message/viewEmailMessageDetail.do?msg=");
+				url.append(StringEncodeUtility.encode(((EmailMessageDTO)item).getSysRefMessage(), CommonConstant.STRING_ENCODE_BY_DEFAULT));
+				url.append("&type=I");
+				
 				StringBuffer buffer = new StringBuffer();
 				if(CommonConstant.YES.equals(dto.getIsRead())){
 					buffer.append("<span>");
@@ -165,10 +177,7 @@ public class BaseMessageManagementController extends BaseController{
 					buffer.append("<span style=\"font-weight:bold\" >");
 				}
 				buffer.append("<a href=\"");
-				buffer.append(contextPath);
-				buffer.append("/message/viewEmailMessageDetail.do?msg=");
-				buffer.append(StringEncodeUtility.encode(((EmailMessageDTO)item).getSysRefMessage(), CommonConstant.STRING_ENCODE_BY_DEFAULT));
-				buffer.append("&type=I");
+				buffer.append(URLUtils.getHDIVUrl(request, url.toString()));
 				buffer.append("\">");
 				buffer.append(((EmailMessageDTO)item).getMessageTo());
 				buffer.append("</a></span>");
