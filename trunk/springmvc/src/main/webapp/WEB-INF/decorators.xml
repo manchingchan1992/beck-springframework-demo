@@ -10,5 +10,6 @@
 
 	<decorator name="nomenu" page="nomenu.jsp">
 		<pattern>/login.do</pattern>
+		<pattern>/logout.do</pattern>
 	</decorator>
 </decorators>

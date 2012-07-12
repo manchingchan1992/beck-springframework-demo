@@ -55,6 +55,7 @@
 			<list>
 				<value>/index.do</value>
 				<value>/login.do</value>
+				<value>/logout.do</value>
 				<value>/message/initInbox.do</value>
 				<value>/message/initOutbox.do</value>
 				<value>/message/initEmail.do</value>

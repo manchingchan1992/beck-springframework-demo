@@ -20,12 +20,17 @@ function clear(){
 		  <common:top></common:top>
 		</div>
 		<div id="pageMain">
-		  <c:if test="${not empty param.login_error }">
+		  <c:if test="${not empty param.login_error || not empty error_code_not_from_security}">
 		    <div class="errorContainer" id='mvcErrorContainer'>
 		       <h4><img src="${imagePath}/icon/icon_warning.gif" alt="Warning">Error:</h4>
 	           <br clear="all"/>
 	           <ul>
+	             <c:if test="${not empty param.login_error}">
                  <li><c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" /></li>
+                 </c:if>
+                 <c:if test="${not empty error_code_not_from_security}">
+                 <li><spring:message code="${error_code_not_from_security}" text=""></spring:message></li>              
+                 </c:if>
                </ul>
             </div>
           </c:if>
