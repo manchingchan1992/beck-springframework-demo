@@ -28,7 +28,7 @@ public class SecurityUtils {
 		}
 	}
 	
-	private static UserDetails getUser(){
+	public static UserDetails getUser(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication != null){
 			if(authentication.getPrincipal()!=null && authentication.getPrincipal() instanceof UserDetails){
