@@ -19,7 +19,7 @@
 	
 	<security:http auto-config="true" access-denied-page="/commons/403.jsp">
 		<security:form-login login-page="/login.do" 
-							 default-target-url="/message/initInbox.do" 
+							 default-target-url="/index.do" 
 							 authentication-failure-url="/login.do?login_error=1" 
 							 always-use-default-target="true"/>
 		<security:logout logout-success-url="/login.do" invalidate-session="true"/>
@@ -29,6 +29,8 @@
 	</security:http>
 	
 	<security:authentication-manager>
-		<security:authentication-provider user-service-ref="userDetailService"></security:authentication-provider>
+		<security:authentication-provider user-service-ref="userDetailService">
+		   <security:password-encoder base64="true" hash="md5"></security:password-encoder>
+		</security:authentication-provider>
 	</security:authentication-manager>
 </beans>
