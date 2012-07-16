@@ -21,8 +21,8 @@
 		<div id="pageMain">
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 				<tr>
-					<td class="leftMenuStyle" width="168" valign="top">
-						<common:menu></common:menu>
+					<td valign="top" width="168px">
+						<common:accordion></common:accordion>
 					</td>
 					<td valign="top" width="10">&nbsp;</td>
 					<td valign="top" align="left">
