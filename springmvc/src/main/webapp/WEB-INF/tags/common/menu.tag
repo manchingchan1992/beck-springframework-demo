@@ -42,7 +42,7 @@
 					<b>工作流程</b>
 				</dt>
 				<dd style='display: block;' id='item5'>
-					<common:menuitem href="#" itemName="流程管理"></common:menuitem>
+					<common:menuitem href="${ctx}/workflow/initWorkflowSearch.do" itemName="流程管理"></common:menuitem>
 					<common:menuitem href="#" itemName="表单定义"></common:menuitem>
 				</dd>
 			</dl>
