@@ -1,5 +1,5 @@
 /************* Default Settings Begin******************************************/
-BODY,SPAN,TD,DIV,TABLE,A,P,H1,H2,H3,H4 {
+BODY,SPAN,TD,DIV,TABLE,A,P,H1,H2,H4 {
 	word-break: keep-all;
 	word-wrap: normal;
 }
@@ -63,19 +63,6 @@ H1 {
 }
 
 H2 {
-	BORDER-TOP-WIDTH: 0px;
-	PADDING-RIGHT: 0px;
-	DISPLAY: inline;
-	PADDING-LEFT: 0px;
-	BORDER-LEFT-WIDTH: 0px;
-	FONT-SIZE: 1.15em;
-	BORDER-BOTTOM-WIDTH: 0px;
-	PADDING-BOTTOM: 0px;
-	PADDING-TOP: 0px;
-	BORDER-RIGHT-WIDTH: 0px
-}
-
-H3 {
 	BORDER-TOP-WIDTH: 0px;
 	PADDING-RIGHT: 0px;
 	DISPLAY: inline;
@@ -1989,7 +1976,7 @@ width: 168px; /*width of accordion menu*/
 .arrowlistmenu .menuheader{ /*CSS class for menu headers in general (expanding or not!)*/
 font: bold 14px Arial;
 color: white;
-background: black url(/springframework/images/icon/titlebar.png) repeat-x center left;
+background: black url(/springframework/images/icon/glossyback2.gif) repeat-x center left;
 margin-bottom: 10px; /*bottom spacing between header and rest of content*/
 text-transform: uppercase;
 padding: 4px 0 4px 10px; /*header text is indented 10px*/
