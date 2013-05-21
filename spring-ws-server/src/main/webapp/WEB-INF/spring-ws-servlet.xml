@@ -12,10 +12,16 @@
 	<context:component-scan base-package="cn.org.polaris.endpoint" />
 
 	<sws:annotation-driven />
-
+	
+	<!-- 
 	<sws:dynamic-wsdl id="holiday" portTypeName="HumanResource"
 		locationUri="/holidayService/" 
 		targetNamespace="http://mycompany.com/hr/definitions">
 		<sws:xsd location="/WEB-INF/wsdl/hr.xsd" />
 	</sws:dynamic-wsdl>
+	 -->
+	 
+	 <bean id="holiday" class="org.springframework.ws.wsdl.wsdl11.SimpleWsdl11Definition">
+	    <property name="wsdl" value="/WEB-INF/wsdl/holiday.wsdl"></property>
+	 </bean>
 </beans>

@@ -10,7 +10,7 @@ public class HolidayEndPoint {
 	private static final String NAMESPACE_URI = "http://mycompany.com/hr/schemas";
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "HolidayRequest")
-	public void handleHolidayRequest(@RequestPayload Element holidayRequest)throws Exception {
-		System.out.println("####receive xml message######" + holidayRequest.toString());
+	public void handleHolidayRequest(@RequestPayload Element holiday)throws Exception {
+		System.out.println("####receive xml message######" + holiday.toString());
 	}
 }
