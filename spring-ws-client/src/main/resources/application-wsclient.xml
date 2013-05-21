@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName">
+	<description>Spring Application Configuration</description>
+	
+	<bean id="msgFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory" />
+	
+	<bean id="msgSender" class="org.springframework.ws.transport.http.CommonsHttpMessageSender" />
+	
+	<bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+	   <constructor-arg ref="msgFactory" />
+	   <property name="messageSender" ref="msgSender" />
+	   <property name="defaultUri" value="http://localhost:8080/holidayService/" />
+	</bean>
+</beans>
